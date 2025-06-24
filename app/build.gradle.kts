@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,11 +9,19 @@ plugins {
     alias(libs.plugins.hilt.plugin)
 }
 
+val localProperties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
+}
+val newsApiKey = localProperties.getProperty("NEWS_API_KEY") ?: ""
+
 android {
     namespace = "com.example.chapkirnews"
     compileSdk = 35
 
     defaultConfig {
+
+        buildConfigField("String", "NEWS_API_KEY", "\"$newsApiKey\"")
+
         applicationId = "com.example.chapkirnews"
         minSdk = 26
         targetSdk = 35
@@ -39,6 +49,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
