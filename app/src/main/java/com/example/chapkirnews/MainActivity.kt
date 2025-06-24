@@ -13,8 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.example.chapkirnews.presentation.navigation.AppNavigation
 import com.example.chapkirnews.presentation.theme.ChapkirNewsTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +26,8 @@ class MainActivity : ComponentActivity() {
             ChapkirNewsTheme {
                 Surface(modifier = Modifier.fillMaxSize()){
                     val navController = rememberNavController()
-
+                    AppNavigation(navController = navController)
                 }
-
             }
         }
     }
