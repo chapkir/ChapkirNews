@@ -21,7 +21,15 @@ import androidx.compose.ui.unit.sp
 fun CustomTopBar(
     currentRoute: String
 ) {
+
+    val title = when (currentRoute) {
+        "newsfeed" -> "Лента новостей"
+        "favorites" -> "Избранное"
+        else -> ""
+    }
+
     val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -30,12 +38,12 @@ fun CustomTopBar(
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = currentRoute,
-            fontSize = 17.5.sp,
+            text = title,
+            fontSize = 19.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 10.dp, bottom = 12.dp)
+            modifier = Modifier.padding(top = 15.dp, bottom = 12.dp)
         )
     }
 }
