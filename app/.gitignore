@@ -1,1 +1,117 @@
-/build
+# === Android build files ===
+*.iml
+.gradle/
+local.properties
+.idea/
+.DS_Store
+/build/
+*/build/
+!gradle-wrapper.jar
+.gradle/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# === Kotlin-specific ===
+*.class
+*.kt.class
+*.kts.class
+
+# === Logs and crash reports ===
+*.log
+
+# === Jetpack Compose preview ===
+*.preview
+*.preview-cache/
+
+# === Android Studio ===
+.idea/
+*.iws
+*.ipr
+*.bak
+*.swp
+*.tmp
+*.orig
+*.rej
+*.sublime-workspace
+*.sublime-project
+
+# === Generated files ===
+/out/
+gen/
+bin/
+build/
+*/build/
+
+# === Keystore files (DO NOT commit your release keys) ===
+*.jks
+*.keystore
+
+# === Fastlane metadata ===
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/metadata
+
+# === Google Services (optional — remove if using Firebase and want to share config) ===
+google-services.json
+fabric.properties
+
+# === Room / Hilt generated code ===
+/build/
+.kapt/
+.ksp/
+
+# === Misc ===
+*.orig
+*.apk
+*.ap_
+*.aab
+
+# === OS-specific ===
+# macOS
+*.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# === JetBrains Rider / IntelliJ IDEA ===
+.idea/
+*.iws
+*.ipr
+*.iml
+
+# === Environment files ===
+.env
+.env.*
+
+# === Compose Compiler Reports ===
+compose_metrics/
+compose_compiler/
+
+# === Local emulator/device files ===
+*.lock
+*.adb
+
+# === Code coverage ===
+*.ec
+coverage.ec
+coverage/
+jacoco.exec
+
+# === Test reports ===
+test-results/
+test-output/
+
+# === Firebase Crashlytics ===
+crashlytics-build.properties
+firebase/
+
+# === Misc config ===
+local.properties
