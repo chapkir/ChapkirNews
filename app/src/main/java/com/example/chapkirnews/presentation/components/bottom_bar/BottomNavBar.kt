@@ -32,15 +32,15 @@ fun BottomNavBar(
     val navigationBarHeight = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.surfaceContainer,
+        containerColor = Color.Black,
         contentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-        modifier = Modifier.height(52.dp + navigationBarHeight)
+        modifier = Modifier.height(50.dp + navigationBarHeight)
     ) {
         items.forEach { item ->
             val isSelected = currentRoute == item.route
 
             val size = animateDpAsState(
-                targetValue = if (isSelected) 26.dp else 24.dp,
+                targetValue = if (isSelected) 25.dp else 23.dp,
                 animationSpec = tween(durationMillis = 300)
             ).value
 
