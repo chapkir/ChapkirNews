@@ -1,5 +1,6 @@
 package com.example.chapkirnews.presentation.components.top_bar
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -23,7 +24,7 @@ fun CustomTopBar(
 ) {
 
     val title = when (currentRoute) {
-        "newsfeed" -> "Лента новостей"
+        "newsfeed" -> "Chapkir News"
         "favorites" -> "Избранное"
         else -> ""
     }
@@ -33,6 +34,7 @@ fun CustomTopBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.scrim)
             .padding(top = statusBarHeight),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
@@ -41,7 +43,7 @@ fun CustomTopBar(
             text = title,
             fontSize = 19.sp,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 15.dp, bottom = 12.dp)
         )

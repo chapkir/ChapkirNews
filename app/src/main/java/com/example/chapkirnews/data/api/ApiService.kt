@@ -9,7 +9,7 @@ interface ApiService {
 
     @GET("v2/everything")
     suspend fun getLatestNews(
-        @Query("q") query: String = "",
+        @Query("q") query: String = "apple",
         @Query("pageSize") pageSize: Int = 20,
         @Query("page") page: Int = 1,
         @Query("sortBy") sortBy: String = "publishedAt",

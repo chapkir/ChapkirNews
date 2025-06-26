@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.chapkirnews.presentation.components.bottom_bar.BottomNavBar
 import com.example.chapkirnews.presentation.components.top_bar.CustomTopBar
+import com.example.chapkirnews.presentation.screens.newsfeed.NewsfeedScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
@@ -35,7 +36,7 @@ fun AppNavigation(navController: NavHostController) {
             modifier = Modifier.padding(paddingValues)
         ){
             composable("newsfeed"){
-
+                NewsfeedScreen()
             }
 
             composable("favorites"){
