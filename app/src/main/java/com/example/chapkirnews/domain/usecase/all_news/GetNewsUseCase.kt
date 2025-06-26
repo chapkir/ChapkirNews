@@ -1,4 +1,4 @@
-package com.example.chapkirnews.domain.usecase
+package com.example.chapkirnews.domain.usecase.all_news
 
 import com.example.chapkirnews.domain.model.Article
 import com.example.chapkirnews.domain.repository.NewsRepository
