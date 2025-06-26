@@ -22,7 +22,7 @@ class NewsfeedViewModel @Inject constructor(
         loadNews()
     }
 
-    private fun loadNews(query: String = "saint-petersburg", page: Int = 1, pageSize: Int = 20) {
+    private fun loadNews(query: String = "apple", page: Int = 1, pageSize: Int = 20) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             try {

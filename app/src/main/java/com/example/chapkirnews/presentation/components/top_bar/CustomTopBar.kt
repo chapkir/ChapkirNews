@@ -26,7 +26,7 @@ fun CustomTopBar(
 
     val title = when (currentRoute) {
         "newsfeed" -> "Chapkir News"
-        "favorites" -> "Избранное"
+        "favorites" -> "Favorite news"
         else -> ""
     }
 
@@ -42,11 +42,11 @@ fun CustomTopBar(
     ) {
         Text(
             text = title,
-            fontSize = 19.sp,
+            fontSize = 17.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 15.dp, bottom = 12.dp)
+            modifier = Modifier.padding(top = 13.dp, bottom = 10.dp)
         )
     }
 }

@@ -40,12 +40,12 @@ import com.example.chapkirnews.R
 
 @Composable
 fun NewsCard(
-    title: String?,
-    imageUrl: String?,
-    author: String?,
-    description: String?,
-    publishedAt: String?,
-    content: String?
+    title: String,
+    imageUrl: String,
+    author: String,
+    description: String,
+    publishedAt: String,
+    content: String
 ) {
 
     val isLiked = remember { mutableStateOf(false) }
@@ -61,29 +61,30 @@ fun NewsCard(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
-                .padding(10.dp)
+                .padding(horizontal = 12.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = author ?: "Неизвестный автор",
+                        text = author,
                         modifier = Modifier
                             .fillMaxWidth(0.8f)
-                            .padding(start = 6.dp),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
+                            .padding(start = 3.dp),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal,
                         maxLines = 1
                     )
                     IconButton(
                         onClick = { isLiked.value = !isLiked.value },
                         modifier = Modifier
-                            .padding(end = 6.dp)
                             .size(28.dp)
                     ) {
                         Icon(
@@ -120,29 +121,36 @@ fun NewsCard(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    text = title ?: "Без названия",
+                    text = title,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = description ?: "Без описания",
+                    text = description,
                     color = Color.LightGray,
                     fontSize = 14.sp,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-                Text(
-                    text = publishedAt ?: "Без даты",
-                    color = Color.Gray,
-                    fontSize = 12.sp
-                )
-
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 6.dp),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = publishedAt,
+                        color = Color.Gray,
+                        fontSize = 12.sp
+                    )
+                }
             }
         }
     }

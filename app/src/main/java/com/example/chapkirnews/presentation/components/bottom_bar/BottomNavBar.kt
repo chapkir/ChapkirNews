@@ -34,7 +34,7 @@ fun BottomNavBar(
     NavigationBar(
         containerColor = Color.Black,
         contentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-        modifier = Modifier.height(50.dp + navigationBarHeight)
+        modifier = Modifier.height(52.dp + navigationBarHeight)
     ) {
         items.forEach { item ->
             val isSelected = currentRoute == item.route

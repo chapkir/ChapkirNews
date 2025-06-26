@@ -1,12 +1,12 @@
 package com.example.chapkirnews.domain.model
 
 data class Article(
-    val sourceName: String?,
-    val author: String?,
-    val title: String?,
-    val description: String?,
-    val url: String?,
-    val imageUrl: String?,
-    val publishedAt: String?,
-    val content: String?
+    val sourceName: String = "Неизвестный источник",
+    val author: String = "Неизвестный автор",
+    val title: String = "Без названия",
+    val description: String = "Без описания",
+    val url: String = "",
+    val imageUrl: String = "",
+    val publishedAt: String = "Дата не указана",
+    val content: String = ""
 )
