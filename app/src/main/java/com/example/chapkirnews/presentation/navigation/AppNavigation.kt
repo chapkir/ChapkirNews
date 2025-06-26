@@ -21,7 +21,7 @@ fun AppNavigation(navController: NavHostController) {
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route ?: ""
 
     Scaffold(
-        topBar = { CustomTopBar(currentRoute = currentRoute) },
+        //topBar = { CustomTopBar(currentRoute = currentRoute) },
         bottomBar = {
             BottomNavBar(
                 currentRoute = currentRoute,

@@ -33,7 +33,6 @@ fun FavoritesScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         when {
-
             state.isLoading -> {
                 CircularProgressIndicator(
                     modifier = Modifier
