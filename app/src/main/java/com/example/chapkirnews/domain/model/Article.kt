@@ -8,5 +8,6 @@ data class Article(
     val url: String = "",
     val imageUrl: String = "",
     val publishedAt: String = "Дата не указана",
-    val content: String = ""
+    val content: String = "",
+    val isFavorite: Boolean = false
 )

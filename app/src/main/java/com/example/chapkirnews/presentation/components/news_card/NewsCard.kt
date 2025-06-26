@@ -45,10 +45,10 @@ fun NewsCard(
     author: String,
     description: String,
     publishedAt: String,
-    content: String
+    content: String,
+    isFavorite: Boolean,
+    onToggleFavorite: () -> Unit
 ) {
-
-    val isLiked = remember { mutableStateOf(false) }
 
     Card(
         shape = RoundedCornerShape(14.dp),
@@ -83,20 +83,19 @@ fun NewsCard(
                         maxLines = 1
                     )
                     IconButton(
-                        onClick = { isLiked.value = !isLiked.value },
-                        modifier = Modifier
-                            .size(28.dp)
+                        onClick = { onToggleFavorite() },
+                        modifier = Modifier.size(28.dp)
                     ) {
                         Icon(
                             painter = painterResource(
                                 id =
-                                    if (isLiked.value) R.drawable.ic_bookmark_filled
+                                    if (isFavorite) R.drawable.ic_bookmark_filled
                                     else R.drawable.ic_bookmark
                             ),
                             contentDescription = "like",
                             modifier = Modifier.size(23.dp),
                             tint =
-                                if (isLiked.value) Color.Yellow
+                                if (isFavorite) Color.Yellow
                                 else MaterialTheme.colorScheme.onBackground
                         )
                     }

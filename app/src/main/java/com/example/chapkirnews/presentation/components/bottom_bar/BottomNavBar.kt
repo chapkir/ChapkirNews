@@ -7,17 +7,18 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun BottomNavBar(
@@ -34,7 +35,7 @@ fun BottomNavBar(
     NavigationBar(
         containerColor = Color.Black,
         contentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-        modifier = Modifier.height(52.dp + navigationBarHeight)
+        modifier = Modifier.height(51.dp + navigationBarHeight)
     ) {
         items.forEach { item ->
             val isSelected = currentRoute == item.route
@@ -53,17 +54,20 @@ fun BottomNavBar(
                 },
                 icon = {
                     Icon(
-                        painter = painterResource(id = item.icon),
+                        painter = painterResource(
+                            id =
+                                if (isSelected) item.filledIcon
+                                else item.icon
+                        ),
                         contentDescription = item.label,
                         modifier = Modifier.size(size)
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.onBackground,
-                    unselectedIconColor =
-                    MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
-                    selectedTextColor = Color.Blue,
-                    unselectedTextColor = Color.Gray,
+                    unselectedIconColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                    selectedTextColor = MaterialTheme.colorScheme.onBackground,
+                    unselectedTextColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                     indicatorColor = Color.Transparent
                 ),
                 alwaysShowLabel = false

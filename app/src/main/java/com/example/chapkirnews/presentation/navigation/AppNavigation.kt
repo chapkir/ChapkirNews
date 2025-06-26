@@ -5,13 +5,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.chapkirnews.presentation.components.bottom_bar.BottomNavBar
 import com.example.chapkirnews.presentation.components.top_bar.CustomTopBar
-import com.example.chapkirnews.presentation.screens.newsfeed.NewsfeedScreen
+import com.example.chapkirnews.presentation.screens.favorites_screen.FavoritesScreen
+import com.example.chapkirnews.presentation.screens.newsfeed_screen.NewsfeedScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
@@ -25,7 +27,11 @@ fun AppNavigation(navController: NavHostController) {
                 currentRoute = currentRoute,
                 onNavigate = { route ->
                     navController.navigate(route) {
-                        popUpTo(route) { saveState = true }
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
                     }
                 }
             )
@@ -42,7 +48,7 @@ fun AppNavigation(navController: NavHostController) {
             }
 
             composable("favorites"){
-
+                FavoritesScreen()
             }
 
             composable("detail/{id}"){

@@ -1,4 +1,4 @@
-package com.example.chapkirnews.presentation.screens.newsfeed_screen
+package com.example.chapkirnews.presentation.screens.favorites_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,16 +21,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.chapkirnews.presentation.components.news_card.NewsCard
+import com.example.chapkirnews.presentation.screens.newsfeed_screen.NewsfeedViewModel
 
 @Composable
-fun NewsfeedScreen(
-    viewModel: NewsfeedViewModel = hiltViewModel()
+fun FavoritesScreen(
+    viewModel: FavoritesViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         when {
 
@@ -61,7 +61,7 @@ fun NewsfeedScreen(
                         .background(Color.Black),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    items(state.news) { article ->
+                    items(state.favorites) { article ->
                         NewsCard(
                             title = article.title,
                             imageUrl = article.imageUrl,

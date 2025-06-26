@@ -5,17 +5,20 @@ import com.example.chapkirnews.R
 sealed class BottomBarItem(
     val route: String,
     val icon: Int,
+    val filledIcon: Int,
     val label: String,
 ) {
     object Newsfeed : BottomBarItem(
         route = "newsfeed",
         icon = R.drawable.ic_news,
-        label = "Новости"
+        filledIcon = R.drawable.ic_news_filled,
+        label = "News"
     )
 
     object Favorites : BottomBarItem(
         route = "favorites",
         icon = R.drawable.ic_bookmark,
-        label = "Избранное"
+        filledIcon = R.drawable.ic_bookmark_filled,
+        label = "Favs"
     )
 }
