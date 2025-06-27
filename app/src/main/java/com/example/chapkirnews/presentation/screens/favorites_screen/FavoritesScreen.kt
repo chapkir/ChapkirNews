@@ -4,6 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.chapkirnews.R
+import com.example.chapkirnews.presentation.components.ErrorBlock
 import com.example.chapkirnews.presentation.components.news_card.NewsCard
 import com.example.chapkirnews.presentation.screens.newsfeed_screen.NewsfeedViewModel
 
@@ -44,12 +49,14 @@ fun FavoritesScreen(
             }
 
             state.error != null -> {
-                Text(
-                    text = "Ошибка загрузки: ${state.error}",
-                    modifier = Modifier.align(Alignment.Center),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onBackground
+                ErrorBlock(
+                    message = state.error!!,
+                    icon = R.drawable.ic_cross_small,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .imePadding()
+                        .align(Alignment.Center)
+                        .padding(horizontal = 25.dp)
                 )
             }
 

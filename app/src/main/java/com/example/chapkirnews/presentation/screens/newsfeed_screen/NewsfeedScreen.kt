@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.chapkirnews.R
+import com.example.chapkirnews.presentation.components.ErrorBlock
 import com.example.chapkirnews.presentation.components.news_card.NewsCard
 
 @Composable
@@ -107,40 +108,15 @@ fun NewsfeedScreen(
                 }
 
                 state.error != null -> {
-                    Column(
+                    ErrorBlock(
+                        message = state.error!!,
+                        icon = R.drawable.ic_cross_small,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .imePadding()
                             .align(Alignment.Center)
-                            .padding(horizontal = 25.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ){
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_cross_small),
-                            contentDescription = "NotFound",
-                            modifier = Modifier
-                                .size(117.dp)
-                                .clip(CircleShape)
-                                .background(Color.DarkGray),
-                            tint = MaterialTheme.colorScheme.onBackground
-                        )
-                        Spacer(modifier = Modifier.height(33.dp))
-                        Text(
-                            text = "Нет результатов",
-                            fontSize = 23.sp,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Text(
-                            text = "${state.error}",
-                            fontSize = 17.sp,
-                            textAlign = TextAlign.Center,
-                            color = Color.Gray
-                        )
-                    }
+                            .imePadding()
+                            .padding(horizontal = 25.dp)
+                    )
                 }
 
                 else -> {

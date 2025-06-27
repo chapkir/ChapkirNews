@@ -81,7 +81,7 @@ class NewsfeedViewModel @Inject constructor(
                 if (news.isEmpty()) {
                     _uiState.update { it.copy(
                         isLoading = false,
-                        error = "По этому запросу новостей не найдено"
+                        error = "По Вашему запросу новостей нет. Попробуйте найти что-то другое!"
                     ) }
                     return@launch
                 }
@@ -94,7 +94,7 @@ class NewsfeedViewModel @Inject constructor(
                 _uiState.update { it.copy(
                     isLoading = false,
                     error = "Ошибка загрузки новостей." +
-                            " Сервис плохо работает в России, попробуй включить VPN. "
+                            " Сервис плохо работает в России, попробуте включить VPN. "
                             + e.message
                 ) }
             }

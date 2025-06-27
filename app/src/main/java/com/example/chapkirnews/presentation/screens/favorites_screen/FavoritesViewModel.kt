@@ -33,11 +33,23 @@ class FavoritesViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
                 getFavorites().collect { articles ->
-                    _uiState.update {
-                        it.copy(
-                            favorites = articles.map { it.copy(isFavorite = true) },
-                            isLoading = false
-                        )
+                    if (articles.isEmpty()) {
+                        _uiState.update {
+                            it.copy(
+                                favorites = emptyList(),
+                                isLoading = false,
+                                error = "Кажется, Вы ничего не сохраняли." +
+                                        " Листайте ленту и добавляйте сюда то, что понравится!"
+                            )
+                        }
+                    } else {
+                        _uiState.update {
+                            it.copy(
+                                favorites = articles.map { it.copy(isFavorite = true) },
+                                isLoading = false,
+                                error = null
+                            )
+                        }
                     }
                 }
             } catch (e: Exception) {
