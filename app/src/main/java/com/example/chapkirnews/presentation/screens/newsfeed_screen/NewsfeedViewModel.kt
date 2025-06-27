@@ -93,7 +93,9 @@ class NewsfeedViewModel @Inject constructor(
             } catch (e: Exception) {
                 _uiState.update { it.copy(
                     isLoading = false,
-                    error = "Ошибка загрузки нововстей " + e.message
+                    error = "Ошибка загрузки новостей." +
+                            " Сервис плохо работает в России, попробуй включить VPN. "
+                            + e.message
                 ) }
             }
         }
