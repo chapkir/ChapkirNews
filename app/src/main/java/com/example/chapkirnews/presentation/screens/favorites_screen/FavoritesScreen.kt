@@ -46,35 +46,29 @@ fun FavoritesScreen(
                 .background(MaterialTheme.colorScheme.background)
                 .padding(top = 14.dp, bottom = 11.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.Start
         ) {
-            Row(
+            IconButton(
+                onClick = { },
                 modifier = Modifier
-                    .padding(start = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(start = 12.dp, end = 16.dp)
+                    .size(28.dp)
             ) {
-                IconButton(
-                    onClick = { },
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .size(28.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_menu),
-                        contentDescription = "menu",
-                        modifier = Modifier.size(22.dp),
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-
-                Text(
-                    text = "Избранное",
-                    fontSize = 21.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    textAlign = TextAlign.Center,
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_menu),
+                    contentDescription = "menu",
+                    modifier = Modifier.size(22.dp),
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
+
+            Text(
+                text = "Избранное",
+                fontSize = 21.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground,
+                textAlign = TextAlign.Center,
+            )
         }
 
         Box(
@@ -107,7 +101,7 @@ fun FavoritesScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color.Black),
+                            .background(MaterialTheme.colorScheme.background),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         items(state.favorites) { article ->

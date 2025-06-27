@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -47,7 +48,8 @@ fun NewsCard(
     publishedAt: String,
     content: String,
     isFavorite: Boolean,
-    onToggleFavorite: () -> Unit
+    onToggleFavorite: () -> Unit,
+    onArticleClick: () -> Unit = {},
 ) {
 
     Card(
@@ -58,7 +60,7 @@ fun NewsCard(
         elevation = CardDefaults.cardElevation(6.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { },
+            .clickable { onArticleClick() },
     ) {
         Box(
             modifier = Modifier
@@ -114,10 +116,11 @@ fun NewsCard(
                         .memoryCachePolicy(CachePolicy.ENABLED)
                         .build(),
                     contentDescription = null,
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxWidth(0.6f)
                         .clip(RoundedCornerShape(12.dp))
+                        .aspectRatio(16/9f)
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))

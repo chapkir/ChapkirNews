@@ -1,6 +1,5 @@
 package com.example.chapkirnews.presentation.screens.newsfeed_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chapkirnews.domain.model.Article
@@ -16,8 +15,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -73,16 +70,18 @@ class NewsfeedViewModel @Inject constructor(
         }
     }
 
-    private fun loadNews(query: String = "А", page: Int = 1, pageSize: Int = 20) {
+    private fun loadNews(query: String = "айти", page: Int = 1, pageSize: Int = 20) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
                 val news = getNewsUseCase(query, page, pageSize)
                 if (news.isEmpty()) {
-                    _uiState.update { it.copy(
-                        isLoading = false,
-                        error = "По Вашему запросу новостей нет. Попробуйте найти что-то другое!"
-                    ) }
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            error = "По Вашему запросу новостей нет. Попробуйте найти что-то другое!"
+                        )
+                    }
                     return@launch
                 }
 
@@ -91,12 +90,14 @@ class NewsfeedViewModel @Inject constructor(
 
                 _uiState.update { it.copy(news = updated, isLoading = false, error = null) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(
-                    isLoading = false,
-                    error = "Ошибка загрузки новостей." +
-                            " Сервис плохо работает в России, попробуте включить VPN. "
-                            + e.message
-                ) }
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        error = "Ошибка загрузки новостей." +
+                                " Сервис плохо работает в России, попробуте включить VPN. "
+                                + e.message
+                    )
+                }
             }
         }
     }
