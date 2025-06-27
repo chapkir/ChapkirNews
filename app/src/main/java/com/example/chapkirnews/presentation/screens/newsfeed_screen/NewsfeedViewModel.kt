@@ -9,10 +9,16 @@ import com.example.chapkirnews.domain.usecase.favorites_news.AddArticleToFavorit
 import com.example.chapkirnews.domain.usecase.favorites_news.GetFavoriteNewsUseCase
 import com.example.chapkirnews.domain.usecase.favorites_news.RemoveArticleFromFavoritesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,9 +34,43 @@ class NewsfeedViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(NewsfeedUiState())
     val uiState: StateFlow<NewsfeedUiState> = _uiState.asStateFlow()
 
+    private val searchQueryFlow = MutableStateFlow("")
+
     init {
+        observeSearchQuery()
         loadNews()
         observeFavorites()
+    }
+
+    fun openSearch() {
+        _uiState.update { it.copy(isSearchActive = true) }
+    }
+
+    fun closeSearch() {
+        _uiState.update { it.copy(isSearchActive = false, searchQuery = "") }
+        searchQueryFlow.value = ""
+    }
+
+    fun onSearchQueryChange(newQuery: String) {
+        _uiState.update { it.copy(searchQuery = newQuery) }
+        searchQueryFlow.value = newQuery
+    }
+
+    @OptIn(FlowPreview::class)
+    private fun observeSearchQuery() {
+        viewModelScope.launch {
+            searchQueryFlow
+                .map { it.trim() }
+                .debounce(500)
+                .distinctUntilChanged()
+                .collectLatest { query ->
+                    if (query.isBlank()) {
+                        loadNews()
+                    } else {
+                        loadNews(query)
+                    }
+                }
+        }
     }
 
     private fun loadNews(query: String = "А", page: Int = 1, pageSize: Int = 20) {
@@ -38,13 +78,23 @@ class NewsfeedViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
                 val news = getNewsUseCase(query, page, pageSize)
-                val currentFavorites = _uiState.value.favorites.map { it.url }
+                if (news.isEmpty()) {
+                    _uiState.update { it.copy(
+                        isLoading = false,
+                        error = "По этому запросу новостей не найдено"
+                    ) }
+                    return@launch
+                }
 
+                val currentFavorites = _uiState.value.favorites.map { it.url }
                 val updated = news.map { it.copy(isFavorite = it.url in currentFavorites) }
 
-                _uiState.update { it.copy(news = updated, isLoading = false) }
+                _uiState.update { it.copy(news = updated, isLoading = false, error = null) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, error = e.message ?: "Ошибка") }
+                _uiState.update { it.copy(
+                    isLoading = false,
+                    error = "Ошибка загрузки нововстей " + e.message
+                ) }
             }
         }
     }

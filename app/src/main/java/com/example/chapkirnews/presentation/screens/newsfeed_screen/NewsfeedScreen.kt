@@ -1,27 +1,43 @@
 package com.example.chapkirnews.presentation.screens.newsfeed_screen
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.chapkirnews.R
 import com.example.chapkirnews.presentation.components.news_card.NewsCard
 
 @Composable
@@ -30,16 +46,51 @@ fun NewsfeedScreen(
 ) {
     val state by viewModel.uiState.collectAsState()
 
-    Scaffold(
-        topBar = {
-            NewsfeedTopBar()
+    val focusManager = LocalFocusManager.current
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(listState.isScrollInProgress) {
+        if (listState.isScrollInProgress) {
+            focusManager.clearFocus()
         }
-    ) { paddingValues ->
+    }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            androidx.compose.animation.AnimatedVisibility(
+                visible = state.isSearchActive,
+                enter = slideInHorizontally(
+                    initialOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(durationMillis = 200)
+                ),
+                exit = slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> -fullWidth },
+                    animationSpec = tween(durationMillis = 200)
+                )
+            ) {
+                SearchBar(
+                    onClose = { viewModel.closeSearch() },
+                    query = state.searchQuery,
+                    onQueryChange = { viewModel.onSearchQueryChange(it) },
+                    focusManager = focusManager
+                )
+            }
+
+            androidx.compose.animation.AnimatedVisibility(
+                visible = !state.isSearchActive,
+                enter = fadeIn(animationSpec = tween(durationMillis = 300)),
+                exit = fadeOut(animationSpec = tween(durationMillis = 200))
+            ) {
+                NewsfeedTopBar(
+                    onSearchClick = { viewModel.openSearch() }
+                )
+            }
+        }
+
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
         ) {
             when {
 
@@ -54,17 +105,43 @@ fun NewsfeedScreen(
                 }
 
                 state.error != null -> {
-                    Text(
-                        text = "Ошибка загрузки: ${state.error}",
-                        modifier = Modifier.align(Alignment.Center),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .imePadding()
+                            .align(Alignment.Center)
+                            .padding(horizontal = 15.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ){
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_not_found),
+                            contentDescription = "NotFound",
+                            modifier = Modifier.size(130.dp),
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = "Нет результатов",
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = "${state.error}",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
                 }
 
                 else -> {
                     LazyColumn(
+                        state = listState,
                         modifier = Modifier
                             .fillMaxSize()
                             .background(Color.Black),

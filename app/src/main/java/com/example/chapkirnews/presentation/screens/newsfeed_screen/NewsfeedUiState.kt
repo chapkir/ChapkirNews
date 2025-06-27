@@ -7,5 +7,7 @@ data class NewsfeedUiState(
     val news: List<Article> = emptyList(),
     val favorites: List<Article> = emptyList(),
     val error: String? = null,
-    val message: String? = null
+    val message: String? = null,
+    val isSearchActive: Boolean = false,
+    val searchQuery: String = "",
 )
