@@ -33,7 +33,7 @@ fun BottomNavBar(
     val navigationBarHeight = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     NavigationBar(
-        containerColor = Color.Black,
+        containerColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
         modifier = Modifier.height(51.dp + navigationBarHeight)
     ) {

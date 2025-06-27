@@ -52,6 +52,9 @@ fun NewsCard(
 
     Card(
         shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
         elevation = CardDefaults.cardElevation(6.dp),
         modifier = Modifier
             .fillMaxWidth()
@@ -60,7 +63,6 @@ fun NewsCard(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surface)
                 .padding(horizontal = 12.dp)
         ) {
             Column(
@@ -78,6 +80,7 @@ fun NewsCard(
                         modifier = Modifier
                             .fillMaxWidth(0.8f)
                             .padding(start = 3.dp),
+                        color = MaterialTheme.colorScheme.onBackground,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Normal,
                         maxLines = 1
@@ -95,7 +98,7 @@ fun NewsCard(
                             contentDescription = "like",
                             modifier = Modifier.size(23.dp),
                             tint =
-                                if (isFavorite) Color.Yellow
+                                if (isFavorite) MaterialTheme.colorScheme.primary
                                 else MaterialTheme.colorScheme.onBackground
                         )
                     }
@@ -121,6 +124,7 @@ fun NewsCard(
 
                 Text(
                     text = title,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -129,7 +133,7 @@ fun NewsCard(
 
                 Text(
                     text = description,
-                    color = Color.LightGray,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 14.sp,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis

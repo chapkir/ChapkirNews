@@ -39,8 +39,8 @@ fun ErrorBlock(
             modifier = Modifier
                 .size(117.dp)
                 .clip(CircleShape)
-                .background(Color.DarkGray),
-            tint = MaterialTheme.colorScheme.onBackground
+                .background(MaterialTheme.colorScheme.secondary),
+            tint = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(33.dp))
         Text(
@@ -53,7 +53,7 @@ fun ErrorBlock(
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = message,
-            fontSize = 17.sp,
+            fontSize = 16.sp,
             textAlign = TextAlign.Center,
             color = Color.Gray
         )

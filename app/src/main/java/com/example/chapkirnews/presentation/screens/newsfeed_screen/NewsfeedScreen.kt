@@ -101,9 +101,9 @@ fun NewsfeedScreen(
                     CircularProgressIndicator(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .size(50.dp),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        strokeWidth = 7.dp,
+                            .size(45.dp),
+                        color = MaterialTheme.colorScheme.primary,
+                        strokeWidth = 8.dp,
                     )
                 }
 
@@ -124,7 +124,7 @@ fun NewsfeedScreen(
                         state = listState,
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color.Black),
+                            .background(MaterialTheme.colorScheme.background),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         items(state.news) { article ->
