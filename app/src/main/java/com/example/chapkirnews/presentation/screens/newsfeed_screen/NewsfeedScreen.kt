@@ -30,7 +30,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -54,7 +53,13 @@ fun NewsfeedScreen(
     val listState = rememberLazyListState()
 
     val loadState = news.loadState
-    val isRefreshing = loadState.refresh is LoadState.Loading
+
+    val isInitialLoading =
+        loadState.source.refresh is LoadState.Loading &&
+                news.itemCount == 0
+
+
+    val isPullToRefresh = loadState.refresh is LoadState.Loading && news.itemCount > 0
     val stateRefresh = rememberPullToRefreshState()
 
     LaunchedEffect(listState.isScrollInProgress) {
@@ -105,36 +110,43 @@ fun NewsfeedScreen(
                 .fillMaxSize()
         ) {
             PullToRefreshBox(
-                isRefreshing = isRefreshing,
+                isRefreshing = isPullToRefresh,
                 onRefresh = { news.refresh() },
                 state = stateRefresh,
                 indicator = {
                     Indicator(
                         modifier = Modifier.align(Alignment.TopCenter),
-                        isRefreshing = isRefreshing,
-                        containerColor = Color.Gray,
-                        color = Color.White,
+                        isRefreshing = isPullToRefresh,
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        color = MaterialTheme.colorScheme.primary,
                         state = stateRefresh
                     )
                 }
             ) {
                 when {
-                    loadState.refresh is LoadState.Loading -> {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .size(45.dp),
-                            color = MaterialTheme.colorScheme.primary,
-                            strokeWidth = 8.dp,
-                        )
+                    isInitialLoading -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .size(45.dp),
+                                color = MaterialTheme.colorScheme.primary,
+                                strokeWidth = 8.dp,
+                            )
+                        }
                     }
 
                     loadState.refresh is LoadState.Error -> {
+                        val e = (loadState.refresh as LoadState.Error).error
                         ErrorBlock(
-                            message = state.error!!,
+                            message = "Ошибка загрузки новостей." +
+                                    " Сервис плохо работает в России, попробуй включить VPN. "
+                                    + e.message,
                             icon = R.drawable.ic_cross_small,
                             modifier = Modifier
-                                .fillMaxWidth()
+                                .fillMaxSize()
                                 .align(Alignment.Center)
                                 .imePadding()
                                 .padding(horizontal = 25.dp)
@@ -142,10 +154,15 @@ fun NewsfeedScreen(
                     }
 
                     news.itemCount == 0 -> {
-                        Text(
-                            text = "Нет новостей",
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.padding(16.dp)
+                        ErrorBlock(
+                            message = "По Вашему запросу новостей нет." +
+                                    " Попробуйте найти что-то другое!",
+                            icon = R.drawable.ic_cross_small,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .align(Alignment.Center)
+                                .imePadding()
+                                .padding(horizontal = 25.dp)
                         )
                     }
 
@@ -196,7 +213,9 @@ fun NewsfeedScreen(
                                 item() {
                                     Button(
                                         onClick = { news.retry() },
-                                        modifier = Modifier.fillMaxWidth().padding(16.dp)
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(16.dp)
                                     ) {
                                         Text("Повторить: ${e.message}")
                                     }
