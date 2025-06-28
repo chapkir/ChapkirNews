@@ -72,7 +72,7 @@ fun NewsfeedScreen(
     val loadState = news.loadState
 
     val isInitialLoading = loadState.source.refresh is LoadState.Loading && news.itemCount == 0
-    var isPullToRefresh = loadState.refresh is LoadState.Loading && !isInitialLoading
+    val isPullToRefresh = loadState.refresh is LoadState.Loading && !isInitialLoading
 
     val stateRefresh = rememberPullToRefreshState()
 

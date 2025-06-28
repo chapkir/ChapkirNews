@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
@@ -42,6 +43,7 @@ import com.example.chapkirnews.domain.model.Article
 
 @Composable
 fun NewsDetailScreen(
+    viewModel: NewsDetailSharedViewModel,
     article: Article,
     onClose: () -> Unit
 ) {
@@ -75,7 +77,7 @@ fun NewsDetailScreen(
                 fontSize = 14.sp
             )
             IconButton(
-                onClick = { },
+                onClick = { viewModel.toggleFavorite(article) },
                 modifier = Modifier
                     .padding(end = 14.dp)
                     .size(32.dp)
@@ -83,13 +85,13 @@ fun NewsDetailScreen(
                 Icon(
                     painter = painterResource(
                         id =
-                        if (false) R.drawable.ic_bookmark_filled
+                        if (article.isFavorite) R.drawable.ic_bookmark_filled
                         else R.drawable.ic_bookmark
                     ),
                     contentDescription = "like",
                     modifier = Modifier.size(25.dp),
                     tint =
-                    if (false) MaterialTheme.colorScheme.primary
+                    if (article.isFavorite) MaterialTheme.colorScheme.primary
                     else MaterialTheme.colorScheme.onBackground
                 )
             }

@@ -84,6 +84,7 @@ fun AppNavigation(navController: NavHostController) {
 
                 if (article != null) {
                     NewsDetailScreen(
+                        viewModel = sharedViewModel,
                         article = article!!,
                         onClose = {
                             sharedViewModel.clear()
