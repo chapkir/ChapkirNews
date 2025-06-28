@@ -41,7 +41,7 @@ import com.example.chapkirnews.R
 import com.example.chapkirnews.domain.model.Article
 
 @Composable
-fun NewsDetailDialog(
+fun NewsDetailScreen(
     article: Article,
     onClose: () -> Unit
 ) {

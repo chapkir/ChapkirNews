@@ -1,11 +1,8 @@
 package com.example.chapkirnews.domain.repository
 
+import androidx.paging.Pager
 import com.example.chapkirnews.domain.model.Article
 
 interface NewsRepository {
-    suspend fun getNews(
-        query: String,
-        page: Int,
-        pageSize: Int
-    ): List<Article>
+    fun getNewsPaging(query: String): Pager<Int, Article>
 }

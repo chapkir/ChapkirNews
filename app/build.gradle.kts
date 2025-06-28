@@ -71,7 +71,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    // Kotlin
+// Kotlin
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
@@ -105,4 +105,8 @@ dependencies {
 
 // Accompanist (Pull-to-refresh)
     implementation(libs.accompanist.swiperefresh)
+
+// Paging 3
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
 }
