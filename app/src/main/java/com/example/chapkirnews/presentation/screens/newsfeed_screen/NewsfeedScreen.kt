@@ -3,6 +3,8 @@ package com.example.chapkirnews.presentation.screens.newsfeed_screen
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
@@ -16,9 +18,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -27,11 +37,17 @@ import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -39,6 +55,7 @@ import com.example.chapkirnews.R
 import com.example.chapkirnews.domain.model.Article
 import com.example.chapkirnews.presentation.components.ErrorBlock
 import com.example.chapkirnews.presentation.components.news_card.NewsCard
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,13 +71,12 @@ fun NewsfeedScreen(
 
     val loadState = news.loadState
 
-    val isInitialLoading =
-        loadState.source.refresh is LoadState.Loading &&
-                news.itemCount == 0
+    val isInitialLoading = loadState.source.refresh is LoadState.Loading && news.itemCount == 0
+    var isPullToRefresh = loadState.refresh is LoadState.Loading && !isInitialLoading
 
-
-    val isPullToRefresh = loadState.refresh is LoadState.Loading && news.itemCount > 0
     val stateRefresh = rememberPullToRefreshState()
+
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(listState.isScrollInProgress) {
         if (listState.isScrollInProgress) {
@@ -68,9 +84,9 @@ fun NewsfeedScreen(
         }
     }
 
-    LaunchedEffect(news) {
-        listState.scrollToItem(0)
-    }
+//    LaunchedEffect(news) {
+//        listState.scrollToItem(0)
+//    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Box(modifier = Modifier.fillMaxWidth()) {
@@ -140,17 +156,23 @@ fun NewsfeedScreen(
 
                     loadState.refresh is LoadState.Error -> {
                         val e = (loadState.refresh as LoadState.Error).error
-                        ErrorBlock(
-                            message = "Ошибка загрузки новостей." +
-                                    " Сервис плохо работает в России, попробуй включить VPN. "
-                                    + e.message,
-                            icon = R.drawable.ic_cross_small,
+                        Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .align(Alignment.Center)
-                                .imePadding()
-                                .padding(horizontal = 25.dp)
-                        )
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            ErrorBlock(
+                                message = "Ошибка загрузки новостей." +
+                                        " Сервис плохо работает в России, попробуй включить VPN. "
+                                        + e.message,
+                                icon = R.drawable.ic_cross_small,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .align(Alignment.Center)
+                                    .imePadding()
+                                    .padding(horizontal = 25.dp)
+                            )
+                        }
                     }
 
                     news.itemCount == 0 -> {
@@ -215,14 +237,55 @@ fun NewsfeedScreen(
                                         onClick = { news.retry() },
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .padding(16.dp)
+                                            .padding(10.dp),
+                                        shape = RoundedCornerShape(12.dp),
+                                        colors = ButtonDefaults.buttonColors(
+                                            containerColor = MaterialTheme.colorScheme.primary
+                                        )
                                     ) {
-                                        Text("Повторить: ${e.message}")
+                                        Text(
+                                            text = "Повторить: ${e.message}",
+                                            modifier = Modifier.padding(vertical = 3.dp),
+                                            fontSize = 15.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.onPrimary
+                                        )
                                     }
                                 }
                             }
                         }
                     }
+                }
+            }
+
+            val showScrollToTopButton by remember {
+                derivedStateOf { listState.firstVisibleItemIndex > 1 }
+            }
+
+            androidx.compose.animation.AnimatedVisibility(
+                visible = showScrollToTopButton,
+                enter = fadeIn() + scaleIn(),
+                exit = fadeOut() + scaleOut(),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+            ) {
+                FloatingActionButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            listState.animateScrollToItem(0)
+                        }
+                    },
+                    modifier = Modifier.size(58.dp),
+                    shape = RoundedCornerShape(20.dp),
+                    containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.7f),
+                    contentColor = MaterialTheme.colorScheme.primary
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_arrow_up),
+                        contentDescription = "toTop",
+                        modifier = Modifier.size(38.dp)
+                    )
                 }
             }
         }

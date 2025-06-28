@@ -103,9 +103,6 @@ dependencies {
 // Material 3
     implementation(libs.material3)
 
-// Accompanist (Pull-to-refresh)
-    implementation(libs.accompanist.swiperefresh)
-
 // Paging 3
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
