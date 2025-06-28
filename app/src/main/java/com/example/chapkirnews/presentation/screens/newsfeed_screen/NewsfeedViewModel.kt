@@ -2,14 +2,11 @@ package com.example.chapkirnews.presentation.screens.newsfeed_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.chapkirnews.domain.model.Article
 import com.example.chapkirnews.domain.repository.NewsRepository
-import com.example.chapkirnews.domain.usecase.all_news.GetNewsUseCase
 import com.example.chapkirnews.domain.usecase.favorites_news.AddArticleToFavoritesUseCase
 import com.example.chapkirnews.domain.usecase.favorites_news.GetFavoriteNewsUseCase
 import com.example.chapkirnews.domain.usecase.favorites_news.RemoveArticleFromFavoritesUseCase
@@ -26,7 +23,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -40,7 +36,7 @@ class NewsfeedViewModel @Inject constructor(
     private val getFavorites: GetFavoriteNewsUseCase
 ) : ViewModel() {
 
-    private val searchQuery = MutableStateFlow("айти")
+    private val searchQuery = MutableStateFlow("apple")
 
     private val _uiState = MutableStateFlow(NewsfeedUiState())
     val uiState: StateFlow<NewsfeedUiState> = _uiState.asStateFlow()
@@ -72,10 +68,10 @@ class NewsfeedViewModel @Inject constructor(
 
     fun closeSearch() {
         _uiState.update { it.copy(isSearchActive = false, searchQuery = "") }
-        searchQuery.value = ""
+        searchQuery.value = "apple"
     }
 
-    fun onSearchQueryChange(query: String) {
+    fun onSearchQueryChange(query: String = "apple") {
         _uiState.update { it.copy(searchQuery = query) }
         searchQuery.value = query
     }

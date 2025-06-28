@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -179,7 +180,13 @@ fun NewsfeedScreen(
                                             .padding(16.dp),
                                         contentAlignment = Alignment.Center
                                     ) {
-
+                                        CircularProgressIndicator(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(16.dp),
+                                            color = MaterialTheme.colorScheme.primary,
+                                            strokeWidth = 4.dp,
+                                        )
                                     }
                                 }
                             }
@@ -187,14 +194,12 @@ fun NewsfeedScreen(
                             if (loadState.append is LoadState.Error) {
                                 val e = (loadState.append as LoadState.Error).error
                                 item() {
-//                                    ErrorRetryBlock(
-//                                        error = e.message ?: "Ошибка загрузки",
-//                                        onRetry = { news.retry() },
-//                                        modifier = Modifier
-//                                            .fillMaxWidth()
-//                                            .padding(16.dp)
-//                                            .align(Alignment.Center)
-//                                    )
+                                    Button(
+                                        onClick = { news.retry() },
+                                        modifier = Modifier.fillMaxWidth().padding(16.dp)
+                                    ) {
+                                        Text("Повторить: ${e.message}")
+                                    }
                                 }
                             }
                         }

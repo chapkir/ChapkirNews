@@ -24,11 +24,14 @@ class NewsPagingSource(
 
             val articles = response.articles.map { it.toDomain() }
 
+            val isLastPage = response.articles.isEmpty() || page * pageSize >= response.totalResults
+
             LoadResult.Page(
                 data = articles,
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (articles.isEmpty()) null else page + 1
+                nextKey = if (isLastPage) null else page + 1
             )
+
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
