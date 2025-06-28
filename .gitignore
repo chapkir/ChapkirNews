@@ -1,15 +1,93 @@
 *.iml
 .gradle
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+
+# IDE и Android Studio
+.idea/
+*.iws
+*.ipr
+
+# Конфигурация среды
+.gradle/
+build/
+
+# Gradle Wrapper
+/gradle/
+gradlew
+gradlew.bat
+
+# Артефакты сборки
+/**/build/
+**/*.apk
+**/*.ap_
+
+# KSP
+.ksp/
+
+# Hilt
+**/hilt_aggregated_deps/
+**/dagger/hilt/internal/**
+
+# Jetpack Compose
+*.pb
+compose-compiler.cache
+
+# Room
+schemas/
+*.db
+
+# Reports / Логи
+*.log
+/test-results/
+/outputs/
+*.hprof
+
+# Кеши и временные файлы
+*.tmp
+*.temp
+*.cache
+*.swp
+*.swo
+*.bak
+*.old
+
+# CI/CD, тесты
+/lint/intermediates/
+lint-report/
+lint-results.*
+test-results/
+*.ec
+
+# Firebase / Google Services
+google-services.json
+crashlytics-build.properties
+firebase-debug.log
+
+# Ключи и конфиденциальные файлы
+*.keystore
+*.jks
+*.pem
+*.key
+secrets.properties
+keys.properties
+.env
+
+# Captures и медиа
+captures/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Настройки анализа
+*.xml.tag
+*.xml.bak
+*.orig
+*.rej
