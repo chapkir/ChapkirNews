@@ -20,10 +20,10 @@ val onSecondary = Color(0xFFFFFFFF)
 val secondaryContainer = Color(0xFFEBDEC8)
 val onSecondaryContainer = Color(0xFF251A0C)
 
-val background = Color(0xFFFFFBFF)
+val background = Color(0xFFF1F1F1)
 val onBackground = Color(0xFF1C1B1B)
 
-val surface = Color(0xFFFFFBFF)
+val surface = Color(0xFFF3F0ED)
 val onSurface = Color(0xFF1C1B1B)
 
 val surfaceVariant = Color(0xFFECE1CF)

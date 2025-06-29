@@ -30,12 +30,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.chapkirnews.R
+import com.example.chapkirnews.domain.model.Article
 import com.example.chapkirnews.presentation.components.ErrorBlock
 import com.example.chapkirnews.presentation.components.news_card.NewsCard
 
 @Composable
 fun FavoritesScreen(
-    viewModel: FavoritesViewModel = hiltViewModel()
+    viewModel: FavoritesViewModel = hiltViewModel(),
+    onArticleClick: (Article) -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -111,9 +113,9 @@ fun FavoritesScreen(
                                 author = article.author,
                                 description = article.description,
                                 publishedAt = article.publishedAt,
-                                content = article.content,
                                 isFavorite = article.isFavorite,
-                                onToggleFavorite = { viewModel.toggleFavorite(article) }
+                                onToggleFavorite = { viewModel.toggleFavorite(article) },
+                                onArticleClick = { onArticleClick(article) }
                             )
                         }
                     }

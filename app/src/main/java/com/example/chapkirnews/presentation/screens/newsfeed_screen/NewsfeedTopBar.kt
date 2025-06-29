@@ -136,9 +136,9 @@ fun SearchBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.Black)
+            .background(MaterialTheme.colorScheme.background)
             .padding(11.dp)
-            .height(55.dp),
+            .height(53.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -148,7 +148,7 @@ fun SearchBar(
             placeholder = {
                 Text(
                     text = "Поиск новостей",
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 15.sp
                 )
             },
@@ -166,12 +166,12 @@ fun SearchBar(
                     onClick = { onClose() },
                     modifier = Modifier
                         .padding(start = 3.dp)
-                        .size(33.dp)
+                        .size(30.dp)
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_arrow_left),
                         contentDescription = "OnBack",
-                        tint = Color.White
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             },
@@ -196,18 +196,18 @@ fun SearchBar(
                     }
                 },
             singleLine = true,
-            textStyle = TextStyle(fontSize = 17.sp),
+            textStyle = TextStyle(fontSize = 16.sp),
             shape = RoundedCornerShape(16.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.LightGray,
+                focusedBorderColor = MaterialTheme.colorScheme.onBackground,
+                unfocusedBorderColor = MaterialTheme.colorScheme.onSurface,
                 errorBorderColor = MaterialTheme.colorScheme.error,
                 errorLabelColor = MaterialTheme.colorScheme.error,
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
-                focusedTrailingIconColor = Color.White,
-                unfocusedTrailingIconColor = Color.White,
-                errorTrailingIconColor = Color.White
+                focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
+                focusedTrailingIconColor = MaterialTheme.colorScheme.onBackground,
+                unfocusedTrailingIconColor = MaterialTheme.colorScheme.onBackground,
+                errorTrailingIconColor = MaterialTheme.colorScheme.onBackground
             )
         )
     }

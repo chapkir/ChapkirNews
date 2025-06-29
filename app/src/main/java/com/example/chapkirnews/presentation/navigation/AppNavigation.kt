@@ -10,13 +10,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.example.chapkirnews.presentation.components.bottom_bar.BottomNavBar
 import com.example.chapkirnews.presentation.screens.favorites_screen.FavoritesScreen
 import com.example.chapkirnews.presentation.screens.news_detail_screen.NewsDetailScreen
@@ -45,7 +48,7 @@ fun AppNavigation(navController: NavHostController) {
             )
         },
         containerColor =
-        when (currentRoute){
+        when (currentRoute) {
             "newsfeed" -> MaterialTheme.colorScheme.background
             "favorites" -> MaterialTheme.colorScheme.background
             else -> MaterialTheme.colorScheme.surface
@@ -53,53 +56,73 @@ fun AppNavigation(navController: NavHostController) {
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = "newsfeed",
+            startDestination = "newsfeed_root",
             modifier = Modifier.padding(paddingValues)
         ) {
+            mainNavGraph(navController)
+        }
+    }
+}
 
-            composable("newsfeed") { backStackEntry ->
+fun NavGraphBuilder.mainNavGraph(navController: NavController) {
+    navigation(
+        startDestination = "newsfeed",
+        route = "newsfeed_root"
+    ) {
 
-                val sharedViewModel: NewsDetailSharedViewModel = hiltViewModel(backStackEntry)
+        composable("newsfeed") { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry("newsfeed_root")
+            }
+            val sharedViewModel: NewsDetailSharedViewModel = hiltViewModel(parentEntry)
 
-                NewsfeedScreen(
-                    onArticleClick = { article ->
-                        sharedViewModel.selectArticle(article)
-                        val encodedUrl = Uri.encode(article.url)
-                        navController.navigate("newsDetail/$encodedUrl")
+            NewsfeedScreen(
+                onArticleClick = { article ->
+                    sharedViewModel.selectArticle(article)
+                    val encodedUrl = Uri.encode(article.url)
+                    navController.navigate("newsDetail/$encodedUrl")
+                }
+            )
+        }
+
+        composable("favorites") { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry("newsfeed_root")
+            }
+            val sharedViewModel: NewsDetailSharedViewModel = hiltViewModel(parentEntry)
+
+            FavoritesScreen(
+                onArticleClick = { article ->
+                    sharedViewModel.selectArticle(article)
+                    val encodedUrl = Uri.encode(article.url)
+                    navController.navigate("newsDetail/$encodedUrl")
+                }
+            )
+        }
+
+        composable(
+            route = "newsDetail/{articleUrl}",
+            arguments = listOf(navArgument("articleUrl") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry("newsfeed_root")
+            }
+            val sharedViewModel: NewsDetailSharedViewModel = hiltViewModel(parentEntry)
+
+            val article by sharedViewModel.selectedArticle.collectAsState()
+
+            if (article != null) {
+                NewsDetailScreen(
+                    viewModel = sharedViewModel,
+                    article = article!!,
+                    onClose = {
+                        sharedViewModel.clear()
+                        navController.popBackStack()
                     }
                 )
+            } else {
+                // нет статьи
             }
-
-            composable(
-                route = "newsDetail/{articleUrl}",
-                arguments = listOf(navArgument("articleUrl") { type = NavType.StringType })
-            ) { backStackEntry ->
-
-                val parentEntry = remember(backStackEntry) {
-                    navController.getBackStackEntry("newsfeed")
-                }
-                val sharedViewModel: NewsDetailSharedViewModel = hiltViewModel(parentEntry)
-
-                val article by sharedViewModel.selectedArticle.collectAsState()
-
-                if (article != null) {
-                    NewsDetailScreen(
-                        viewModel = sharedViewModel,
-                        article = article!!,
-                        onClose = {
-                            sharedViewModel.clear()
-                            navController.popBackStack()
-                        }
-                    )
-                } else {
-                    // новость не найдена
-                }
-            }
-
-            composable("favorites") {
-                FavoritesScreen()
-            }
-
         }
     }
 }

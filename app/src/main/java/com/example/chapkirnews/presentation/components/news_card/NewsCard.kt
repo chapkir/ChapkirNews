@@ -43,10 +43,9 @@ fun NewsCard(
     author: String,
     description: String,
     publishedAt: String,
-    content: String,
     isFavorite: Boolean,
     onToggleFavorite: () -> Unit,
-    onArticleClick: () -> Unit = {},
+    onArticleClick: () -> Unit,
 ) {
 
     Card(

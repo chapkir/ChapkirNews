@@ -55,7 +55,7 @@ fun NewsDetailScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surface)
-                .padding(top = 14.dp, bottom = 11.dp),
+                .padding(top = 14.dp, bottom = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -63,7 +63,7 @@ fun NewsDetailScreen(
                 onClick = { onClose() },
                 modifier = Modifier
                     .padding(start = 8.dp)
-                    .size(40.dp)
+                    .size(38.dp)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_left),
@@ -73,7 +73,7 @@ fun NewsDetailScreen(
             }
             Text(
                 text = article.publishedAt,
-                color = Color.Gray,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 14.sp
             )
             IconButton(
@@ -100,19 +100,21 @@ fun NewsDetailScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surface)
-                .padding(horizontal = 20.dp),
+                .background(MaterialTheme.colorScheme.surface),
             verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             item {
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = article.title,
+                    modifier = Modifier.padding(horizontal = 18.dp),
                     color = MaterialTheme.colorScheme.onBackground,
-                    fontSize = 21.sp,
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
             item {
+                Spacer(modifier = Modifier.height(4.dp))
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(article.imageUrl)
@@ -124,21 +126,25 @@ fun NewsDetailScreen(
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(horizontal = 18.dp)
                         .clip(RoundedCornerShape(12.dp))
                         .aspectRatio(16 / 9f)
                 )
             }
             item {
+                Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = article.description,
+                    modifier = Modifier.padding(horizontal = 18.dp),
                     color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 16.sp,
                 )
             }
             item {
                 Text(
-                    text = "Перейти к статье",
+                    text = "Читать полностью",
                     modifier = Modifier
+                        .padding(horizontal = 18.dp)
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() }
@@ -149,23 +155,28 @@ fun NewsDetailScreen(
                     textDecoration = TextDecoration.Underline
                 )
             }
-            item {
-                Text(
-                    text = "Автор статьи: ${article.author}",
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal,
-                )
+            if (article.author.isNotBlank()) {
+                item {
+                    Text(
+                        text = "Автор статьи: ${article.author}",
+                        modifier = Modifier.padding(horizontal = 18.dp),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal,
+                    )
+                }
             }
             item {
                 HorizontalDivider(thickness = 0.5.dp, color = Color.Gray)
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
                     text = "Похожие новости:",
+                    modifier = Modifier.padding(horizontal = 18.dp),
                     color = Color.Gray,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                 )
+                Spacer(modifier = Modifier.height(150.dp))
             }
 
         }
