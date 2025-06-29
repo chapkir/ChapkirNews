@@ -45,7 +45,7 @@ class FavoritesViewModel @Inject constructor(
                     } else {
                         _uiState.update {
                             it.copy(
-                                favorites = articles.map { it.copy(isFavorite = true) },
+                                favorites = articles.reversed().map { it.copy(isFavorite = true) },
                                 isLoading = false,
                                 error = null
                             )
