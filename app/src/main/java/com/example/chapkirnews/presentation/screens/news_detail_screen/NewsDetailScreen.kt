@@ -40,6 +40,7 @@ import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.example.chapkirnews.R
 import com.example.chapkirnews.domain.model.Article
+import com.example.chapkirnews.presentation.utils.openChromeCustomTab
 
 @Composable
 fun NewsDetailScreen(
@@ -48,7 +49,7 @@ fun NewsDetailScreen(
     onClose: () -> Unit
 ) {
 
-    val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
@@ -148,7 +149,7 @@ fun NewsDetailScreen(
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() }
-                        ) { uriHandler.openUri(article.url) },
+                        ) { openChromeCustomTab(context, article.url) },
                     color = Color(0xFF1E88E5),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
