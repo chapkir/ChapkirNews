@@ -1,6 +1,7 @@
 [versions]
 
 agp = "8.8.2"
+browser = "1.8.0"
 coilCompose = "2.7.0"
 converterGson = "2.11.0"
 
@@ -33,6 +34,7 @@ roomRuntime = "2.7.2"
 
 [libraries]
 
+androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
