@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -36,7 +37,7 @@ class NewsfeedViewModel @Inject constructor(
     private val getFavorites: GetFavoriteNewsUseCase
 ) : ViewModel() {
 
-    private val searchQuery = MutableStateFlow("apple")
+    private val searchQuery = MutableStateFlow("")
 
     private val _uiState = MutableStateFlow(NewsfeedUiState())
     val uiState: StateFlow<NewsfeedUiState> = _uiState.asStateFlow()
@@ -46,6 +47,7 @@ class NewsfeedViewModel @Inject constructor(
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     val newsPagingFlow: Flow<PagingData<Article>> = searchQuery
         .debounce(500)
+        .map { it.trim().ifEmpty { "apple" } }
         .distinctUntilChanged()
         .flatMapLatest { query ->
             newsRepository.getNewsPaging(query).flow
@@ -68,10 +70,10 @@ class NewsfeedViewModel @Inject constructor(
 
     fun closeSearch() {
         _uiState.update { it.copy(isSearchActive = false, searchQuery = "") }
-        searchQuery.value = "apple"
+        searchQuery.value = ""
     }
 
-    fun onSearchQueryChange(query: String = "apple") {
+    fun onSearchQueryChange(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
         searchQuery.value = query
     }
