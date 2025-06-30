@@ -23,7 +23,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun BottomNavBar(
     currentRoute: String,
-    onNavigate: (String) -> Unit
+    onNavigate: (String) -> Unit,
+    onPopToStartDestination: (String) -> Unit,
 ) {
     val items = listOf(
         BottomBarItem.Newsfeed,
@@ -38,7 +39,7 @@ fun BottomNavBar(
         modifier = Modifier.height(51.dp + navigationBarHeight)
     ) {
         items.forEach { item ->
-            val isSelected = currentRoute.startsWith(item.route)
+            val isSelected = currentRoute == item.graphRoute
 
             val size = animateDpAsState(
                 targetValue = if (isSelected) 25.dp else 23.dp,
@@ -49,7 +50,9 @@ fun BottomNavBar(
                 selected = isSelected,
                 onClick = {
                     if (!isSelected) {
-                        onNavigate(item.route)
+                        onNavigate(item.graphRoute)
+                    } else {
+                        onPopToStartDestination(item.startRoute)
                     }
                 },
                 icon = {

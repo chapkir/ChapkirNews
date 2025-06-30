@@ -48,6 +48,9 @@ fun AppNavigation(navController: NavHostController) {
                         launchSingleTop = true
                         restoreState = true
                     }
+                },
+                onPopToStartDestination = { startRoute ->
+                    navController.popBackStack(route = startRoute, inclusive = false)
                 }
             )
         },
