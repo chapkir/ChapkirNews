@@ -9,14 +9,14 @@ sealed class BottomBarItem(
     val label: String,
 ) {
     object Newsfeed : BottomBarItem(
-        route = "newsfeed",
+        route = "news_graph",
         icon = R.drawable.ic_news,
         filledIcon = R.drawable.ic_news_filled,
         label = "News"
     )
 
     object Favorites : BottomBarItem(
-        route = "favorites",
+        route = "favorites_graph",
         icon = R.drawable.ic_bookmark,
         filledIcon = R.drawable.ic_bookmark_filled,
         label = "Favs"

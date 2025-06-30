@@ -44,8 +44,8 @@ import com.example.chapkirnews.presentation.utils.openChromeCustomTab
 
 @Composable
 fun NewsDetailScreen(
-    viewModel: NewsDetailSharedViewModel,
     article: Article,
+    onToggleFavorite: () -> Unit,
     onClose: () -> Unit
 ) {
 
@@ -78,7 +78,7 @@ fun NewsDetailScreen(
                 fontSize = 14.sp
             )
             IconButton(
-                onClick = { viewModel.toggleFavorite(article) },
+                onClick = { onToggleFavorite() },
                 modifier = Modifier
                     .padding(end = 14.dp)
                     .size(32.dp)

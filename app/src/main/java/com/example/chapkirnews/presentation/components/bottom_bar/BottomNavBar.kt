@@ -38,7 +38,7 @@ fun BottomNavBar(
         modifier = Modifier.height(51.dp + navigationBarHeight)
     ) {
         items.forEach { item ->
-            val isSelected = currentRoute == item.route
+            val isSelected = currentRoute.startsWith(item.route)
 
             val size = animateDpAsState(
                 targetValue = if (isSelected) 25.dp else 23.dp,
@@ -65,9 +65,9 @@ fun BottomNavBar(
                 },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.onBackground,
-                    unselectedIconColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                    unselectedIconColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                     selectedTextColor = MaterialTheme.colorScheme.onBackground,
-                    unselectedTextColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                    unselectedTextColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                     indicatorColor = Color.Transparent
                 ),
                 alwaysShowLabel = false
