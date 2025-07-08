@@ -19,6 +19,9 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ChapkirNewsCompose"
-include(":app")
- 
+rootProject.name = "ChapkirNews"
+include(":app_compose")
+include(":app_xml")
+include(":data")
+include(":domain")
+include(":di")

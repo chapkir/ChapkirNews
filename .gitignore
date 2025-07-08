@@ -1,35 +1,26 @@
-*.iml
-.gradle
-/local.properties
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
-
-# IDE и Android Studio
+# IDEs и конфигурации среды
 .idea/
 *.iws
 *.ipr
-
-# Конфигурация среды
+*.iml
 .gradle/
-build/
-
-# Gradle Wrapper
-/gradle/
+local.properties
 gradlew
 gradlew.bat
 
-# Артефакты сборки
-/**/build/
+# Сборка и артефакты
+/build/
+*/build/
+**/build/
 **/*.apk
 **/*.ap_
 
-# KSP
-.ksp/
+# Native Build
+.cxx/
+.externalNativeBuild/
 
-# Hilt
+# KSP / Hilt
+.ksp/
 **/hilt_aggregated_deps/
 **/dagger/hilt/internal/**
 
@@ -41,11 +32,14 @@ compose-compiler.cache
 schemas/
 *.db
 
-# Reports / Логи
+# Логи и отчёты
 *.log
-/test-results/
-/outputs/
 *.hprof
+/test-results/
+lint-report/
+lint-results.*
+test-results/
+outputs/
 
 # Кеши и временные файлы
 *.tmp
@@ -56,11 +50,14 @@ schemas/
 *.bak
 *.old
 
-# CI/CD, тесты
+# Инструменты анализа
+*.xml.tag
+*.xml.bak
+*.orig
+*.rej
+
+# CI/CD
 /lint/intermediates/
-lint-report/
-lint-results.*
-test-results/
 *.ec
 
 # Firebase / Google Services
@@ -68,7 +65,7 @@ google-services.json
 crashlytics-build.properties
 firebase-debug.log
 
-# Ключи и конфиденциальные файлы
+# Ключи и секреты
 *.keystore
 *.jks
 *.pem
@@ -80,14 +77,8 @@ keys.properties
 # Captures и медиа
 captures/
 
-# Windows
+# Windows специфичные файлы
 Thumbs.db
 ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
-
-# Настройки анализа
-*.xml.tag
-*.xml.bak
-*.orig
-*.rej
