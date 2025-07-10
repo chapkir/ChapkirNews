@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/menuNewsfeed"
-        android:icon="@drawable/ic_news"
+        android:icon="@drawable/ic_newsfeed_selector"
         android:title="@string/newsfeed_title" />
 
     <item
         android:id="@+id/menuFavorites"
-        android:icon="@drawable/ic_bookmark"
+        android:icon="@drawable/ic_favorites_selector"
         android:title="@string/favorites_title" />
 
 </menu>
