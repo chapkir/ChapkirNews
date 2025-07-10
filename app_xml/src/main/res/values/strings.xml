@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ChapkirNews</string>
+
+    <string name="newsfeed_title">Новости</string>
+    <string name="favorites_title">Избранное</string>
+
+    <string name="read_more">Читать полностью</string>
+
+    <string name="author">Автор статьи:</string>
+
 </resources>

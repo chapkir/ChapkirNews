@@ -9,7 +9,7 @@
         android:id="@+id/tvNewsfeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Новости"
+        android:text="@string/newsfeed_title"
         android:textColor="#117789"
         android:textSize="24sp"
         android:textStyle="bold"

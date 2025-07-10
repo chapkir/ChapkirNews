@@ -4,11 +4,11 @@
     <item
         android:id="@+id/menuNewsfeed"
         android:icon="@drawable/ic_news"
-        android:title="Лента" />
+        android:title="@string/newsfeed_title" />
 
     <item
         android:id="@+id/menuFavorites"
         android:icon="@drawable/ic_bookmark"
-        android:title="Избранное" />
+        android:title="@string/favorites_title" />
 
 </menu>
