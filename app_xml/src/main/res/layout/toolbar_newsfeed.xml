@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/newsfeedToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <!-- Заголовок топбара -->
+    <TextView
+        android:id="@+id/tvNewsfeedTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:text="@string/newsfeed_title"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
+        android:textSize="21sp" />
+
+    <!-- Кнопка поиска -->
+    <ImageView
+        android:id="@+id/ivSearch"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="7.dp"
+        android:src="@drawable/ic_search"
+        android:contentDescription="@string/search"
+        android:visibility="gone"
+        app:tint="@android:color/white" />
+
+    <!-- Поле поиска -->
+    <EditText
+        android:id="@+id/searchInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="search"
+        android:hint="@string/search"
+        android:inputType="text"
+        android:visibility="visible"
+        android:layout_gravity="center"/>
+
+</androidx.appcompat.widget.Toolbar>
+
+
