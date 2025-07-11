@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginVertical="12dp"
+    app:cardBackgroundColor="@color/surface"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="12dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="6dp">
+
+        <FrameLayout
+            android:id="@+id/headerNewsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvAurhor"
+                style="@style/TextCardNewsAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_gravity="start"
+                tools:text="text author"
+                app:layout_constraintBottom_toTopOf="@id/imgNews" />
+
+            <ImageView
+                android:id="@+id/imgBtnAddFavorite"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="end"
+                android:contentDescription="Добавить в избранное"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_bookmark"
+                app:tint="@color/on_background" />
+
+        </FrameLayout>
+
+        <!-- Превью изображения -->
+        <ImageView
+            android:id="@+id/imgNews"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:clipToOutline="true"
+            android:contentDescription="Картинка новости"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerNewsCard"
+            app:layout_constraintWidth_percent="0.6" />
+
+        <!-- Заголовок -->
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/TextCardNewsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            tools:text="Заголовок новости"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgNews" />
+
+        <!-- Описание -->
+        <TextView
+            android:id="@+id/tvDescription"
+            style="@style/TextCardNewsDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="Краткое описание, максимум 3 строки. Например я сегодня вкусно кушал во вкусно и точке бла бла бла"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <!-- Дата или источник -->
+        <TextView
+            android:id="@+id/tvPublishedAt"
+            style="@style/TextCardNewsPublishedAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            tools:text="04:20 / 10.07.2025"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

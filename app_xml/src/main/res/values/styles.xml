@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Стили тулбара -->
     <style name="TextToolbarTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -8,5 +9,54 @@
         <item name="android:textColor">@color/on_background</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+
+    <!-- Стили карточки новости -->
+    <style name="TextCardNewsAuthor">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/on_background</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TextCardNewsTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/on_background</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextCardNewsDescription">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TextCardNewsPublishedAt">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="ButtonAddFavorite">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/on_background</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:paddingStart">3dp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
 
 </resources>
