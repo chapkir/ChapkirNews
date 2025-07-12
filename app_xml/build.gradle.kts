@@ -82,6 +82,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+// Глайд
+    implementation(libs.glide)
+    ksp(libs.compiler)
+
 // Project
     implementation(project(":data"))
     implementation(project(":domain"))
