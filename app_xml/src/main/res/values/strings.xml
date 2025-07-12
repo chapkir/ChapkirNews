@@ -8,5 +8,7 @@
 
     <string name="author">Автор статьи:</string>
     <string name="search">Поиск</string>
+    <string name="desc_news_image">Картинка новости</string>
+    <string name="btn_add_favorite">Добавить в избранное</string>
 
 </resources>
