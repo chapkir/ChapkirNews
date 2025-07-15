@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     private val newsFragment = NewsfeedFragment()
     private val favoritesFragment = FavoritesFragment()
 
+    private var activeFragment: Fragment = newsFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
@@ -25,29 +27,40 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, newsFragment)
+                .add(R.id.fragmentContainer, favoritesFragment, "Favorites")
+                .hide(favoritesFragment)
+                .add(R.id.fragmentContainer, newsFragment, "News")
                 .commit()
+        } else {
+            activeFragment = supportFragmentManager.findFragmentByTag("News") ?: newsFragment
         }
 
         binding.bottomNavBar.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menuNewsfeed -> {
-                    openFragment(newsFragment)
+                    switchFragment(newsFragment)
                     true
                 }
+
                 R.id.menuFavorites -> {
-                    openFragment(favoritesFragment)
+                    switchFragment(favoritesFragment)
                     true
                 }
+
                 else -> false
             }
         }
     }
 
-    private fun openFragment(fragment: Fragment) {
+    private fun switchFragment(targetFragment: Fragment) {
+        if (activeFragment == targetFragment) return
+
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment)
+            .hide(activeFragment)
+            .show(targetFragment)
             .commit()
+
+        activeFragment = targetFragment
     }
 
     override fun onDestroy() {
