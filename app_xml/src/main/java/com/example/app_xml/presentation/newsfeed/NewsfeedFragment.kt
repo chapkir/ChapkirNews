@@ -1,10 +1,15 @@
 package com.example.app_xml.presentation.newsfeed
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,6 +20,8 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_xml.R
 import com.example.app_xml.databinding.FragmentNewsfeedBinding
+import com.example.app_xml.databinding.ToolbarNewsfeedBinding
+import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -25,6 +32,8 @@ class NewsfeedFragment : Fragment() {
     private var _binding: FragmentNewsfeedBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding NewsfeedFragment null")
+
+    private lateinit var toolbarBinding: ToolbarNewsfeedBinding
 
     private lateinit var newsAdapter: NewsAdapter
 
@@ -51,7 +60,7 @@ class NewsfeedFragment : Fragment() {
             newsAdapter.submitData(lifecycle, pagingData)
         }
 
-        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBarNewsfeed)
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -63,6 +72,18 @@ class NewsfeedFragment : Fragment() {
 
         viewModel.articles.observe(viewLifecycleOwner) { pagingData ->
             newsAdapter.submitData(lifecycle, pagingData)
+        }
+
+        toolbarBinding = ToolbarNewsfeedBinding.bind(binding.appBarNewsfeedLayout.findViewById(R.id.newsfeedToolbar))
+
+        toolbarBinding.ivSearch.setOnClickListener {
+            toolbarBinding.tvNewsfeedTitle.visibility = View.GONE
+            toolbarBinding.ivSearch.visibility = View.GONE
+            toolbarBinding.searchInput.visibility = View.VISIBLE
+            toolbarBinding.searchInput.requestFocus()
+
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(toolbarBinding.searchInput, InputMethodManager.SHOW_IMPLICIT)
         }
     }
 

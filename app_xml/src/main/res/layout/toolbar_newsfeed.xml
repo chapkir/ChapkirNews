@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/newsfeedToolbar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
+    android:layout_height="wrap_content"
     android:background="@color/background">
 
     <!-- Заголовок топбара -->
     <TextView
-        style="@style/TextToolbarTitle"
         android:id="@+id/tvNewsfeedTitle"
+        style="@style/TextToolbarTitle"
         android:layout_gravity="start|center_vertical"
         android:text="@string/newsfeed_title"
         android:visibility="visible" />

@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragmentNewsfeed"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <!-- Топбар -->
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+        android:id="@+id/appBarNewsfeedLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
         app:layout_constraintTop_toTopOf="parent">
+
         <include layout="@layout/toolbar_newsfeed" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -26,10 +28,10 @@
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@id/appBarNewsfeedLayout" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/progressBarNewsfeed"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="60.dp"
         android:layout_height="60dp"
@@ -39,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

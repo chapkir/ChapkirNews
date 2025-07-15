@@ -38,8 +38,8 @@
             <!-- Кнопка добавить в избранное -->
             <ImageView
                 android:id="@+id/btnAddFavorite"
-                android:layout_width="23dp"
-                android:layout_height="23dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="end|center_vertical"
                 android:contentDescription="@string/btn_add_favorite"
                 android:scaleType="centerCrop"
