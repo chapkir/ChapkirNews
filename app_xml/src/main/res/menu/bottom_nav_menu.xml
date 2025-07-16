@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menuNewsfeed"
+        android:id="@+id/newsfeedFragment"
         android:icon="@drawable/ic_newsfeed_selector"
         android:title="@string/newsfeed_title" />
 
     <item
-        android:id="@+id/menuFavorites"
+        android:id="@+id/favoritesFragment"
         android:icon="@drawable/ic_favorites_selector"
         android:title="@string/favorites_title" />
 

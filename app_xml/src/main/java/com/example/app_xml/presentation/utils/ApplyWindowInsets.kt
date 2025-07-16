@@ -7,15 +7,9 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.FragmentActivity
 
 /**
- * Универсально применяет Insets к переданному view, по указанному типу.
- *
  * @param activity - текущая Activity
  * @param targetView - View, к которому нужно применить отступ
  * @param insetTypes - Типы Insets (например, ime(), navigationBars(), statusBars())
- * @param applyTop - применять ли отступ сверху
- * @param applyBottom - применять ли отступ снизу
- * @param applyStart - применять ли отступ слева
- * @param applyEnd - применять ли отступ справа
  */
 
 fun applyWindowInsets(

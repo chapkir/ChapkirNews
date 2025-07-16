@@ -3,6 +3,7 @@
 
     <string name="newsfeed_title">Новости</string>
     <string name="favorites_title">Избранное</string>
+    <string name="news_detail_title">Детали новости</string>
 
     <string name="read_more">Читать полностью</string>
 

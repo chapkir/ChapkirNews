@@ -18,7 +18,9 @@ class NewsAdapter(
 ) : PagingDataAdapter<Article, NewsAdapter.NewsViewHolder>(ArticleDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        val binding = ItemNewsCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemNewsCardBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return NewsViewHolder(binding)
     }
 
@@ -27,7 +29,8 @@ class NewsAdapter(
         holder.bind(article)
     }
 
-    inner class NewsViewHolder(private val binding: ItemNewsCardBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class NewsViewHolder(private val binding: ItemNewsCardBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(article: Article) {
             binding.tvTitle.text = article.title
             binding.tvDescription.text = article.description

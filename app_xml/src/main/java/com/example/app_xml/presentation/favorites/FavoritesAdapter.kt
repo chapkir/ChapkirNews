@@ -18,7 +18,9 @@ class FavoritesAdapter(
 ) : ListAdapter<Article, FavoritesAdapter.FavoriteViewHolder>(ArticleDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
-        val binding = ItemNewsCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemNewsCardBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return FavoriteViewHolder(binding)
     }
 

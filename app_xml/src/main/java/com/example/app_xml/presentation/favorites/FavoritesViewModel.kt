@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.app_xml.presentation.newsfeed.NewsUiState
 import com.example.domain.model.Article
 import com.example.domain.usecase.favorites_news.AddArticleToFavoritesUseCase
 import com.example.domain.usecase.favorites_news.GetFavoriteNewsUseCase

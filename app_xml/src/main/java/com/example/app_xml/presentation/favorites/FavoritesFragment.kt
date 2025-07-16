@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_xml.R
 import com.example.app_xml.databinding.FragmentFavoritesBinding
 import com.example.app_xml.databinding.ToolbarFavoritesBinding
-import com.example.app_xml.databinding.ToolbarNewsfeedBinding
 import com.example.app_xml.presentation.utils.applyWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,15 +31,14 @@ class FavoritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
-        toolbarBinding = ToolbarFavoritesBinding.bind(binding.appBarFavoritesLayout.findViewById(R.id.favoritesToolbar))
+        toolbarBinding = ToolbarFavoritesBinding.bind(
+            binding.appBarFavoritesLayout.findViewById(R.id.favoritesToolbar)
+        )
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbarBinding.favoritesToolbar)
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
 
         applyWindowInsets(
             activity = requireActivity(),
