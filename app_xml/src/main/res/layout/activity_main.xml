@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/background"
-        android:fitsSystemWindows="true"
         app:itemIconSize="23dp"
         app:itemIconTint="@color/bottom_bar_item_color"
         app:itemTextColor="@color/bottom_bar_item_color"

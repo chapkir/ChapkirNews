@@ -1,17 +1,17 @@
 package com.example.app_xml.presentation.newsfeed
 
-import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_xml.R
 import com.example.app_xml.databinding.FragmentNewsfeedBinding
 import com.example.app_xml.databinding.ToolbarNewsfeedBinding
-import com.google.android.material.appbar.MaterialToolbar
+import com.example.app_xml.presentation.utils.applyWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -50,11 +50,56 @@ class NewsfeedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNewsfeedBinding.inflate(inflater, container, false)
+        toolbarBinding = ToolbarNewsfeedBinding.bind(
+            binding.appBarNewsfeedLayout.findViewById(R.id.newsfeedToolbar)
+        )
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbarBinding.newsfeedToolbar)
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        applyWindowInsets(
+            activity = requireActivity(),
+            targetView = toolbarBinding.newsfeedToolbar,
+            insetTypes = WindowInsetsCompat.Type.statusBars(),
+            applyTop = true
+        )
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.newsfeed_toolbar_menu, menu)
+
+                val searchItem = menu.findItem(R.id.action_search)
+                val searchView = searchItem.actionView as SearchView
+
+                searchView.queryHint = "Поиск новостей"
+
+                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        searchJob?.cancel()
+                        searchJob = lifecycleScope.launch {
+                            delay(500L)
+                            viewModel.onSearchQueryChange(newText.orEmpty())
+                        }
+                        return true
+                    }
+                })
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         newsAdapter = NewsAdapter { article ->
             viewModel.toggleFavorite(article)
         }
@@ -66,49 +111,18 @@ class NewsfeedFragment : Fragment() {
             newsAdapter.submitData(lifecycle, pagingData)
         }
 
-        val progressBar = view.findViewById<ProgressBar>(R.id.progressBarNewsfeed)
-
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 newsAdapter.loadStateFlow.collectLatest { loadStates ->
-                    progressBar.isVisible = loadStates.refresh is LoadState.Loading
+                    binding.progressBarNewsfeed.isVisible = loadStates.refresh is LoadState.Loading
                 }
             }
         }
-
-        viewModel.articles.observe(viewLifecycleOwner) { pagingData ->
-            newsAdapter.submitData(lifecycle, pagingData)
-        }
-
-        toolbarBinding = ToolbarNewsfeedBinding.bind(binding.appBarNewsfeedLayout.findViewById(R.id.newsfeedToolbar))
-
-        toolbarBinding.ivSearch.setOnClickListener {
-            toolbarBinding.tvNewsfeedTitle.visibility = View.GONE
-            toolbarBinding.ivSearch.visibility = View.GONE
-            toolbarBinding.searchInput.visibility = View.VISIBLE
-            toolbarBinding.searchInput.requestFocus()
-
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(toolbarBinding.searchInput, InputMethodManager.SHOW_IMPLICIT)
-        }
-
-        toolbarBinding.searchInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                searchJob?.cancel()
-                searchJob = lifecycleScope.launch {
-                    delay(500L)
-                    viewModel.onSearchQueryChange(s.toString())
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        searchJob?.cancel()
         _binding = null
     }
 }
