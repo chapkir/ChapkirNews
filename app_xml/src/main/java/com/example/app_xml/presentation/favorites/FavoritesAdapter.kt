@@ -14,7 +14,8 @@ import com.example.app_xml.databinding.ItemNewsCardBinding
 import com.example.domain.model.Article
 
 class FavoritesAdapter(
-    private val onFavoriteClick: (Article) -> Unit
+    private val onFavoriteClick: (Article) -> Unit,
+    private val onArticleClick: (Article) -> Unit
 ) : ListAdapter<Article, FavoritesAdapter.FavoriteViewHolder>(ArticleDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
@@ -47,6 +48,10 @@ class FavoritesAdapter(
 
             binding.btnAddFavorite.setOnClickListener {
                 onFavoriteClick(article)
+            }
+
+            binding.itemNewsCard.setOnClickListener{
+                onArticleClick(article)
             }
         }
     }

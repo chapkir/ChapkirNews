@@ -14,7 +14,8 @@ import com.example.app_xml.databinding.ItemNewsCardBinding
 import com.example.domain.model.Article
 
 class NewsAdapter(
-    private val onFavoriteClick: (Article) -> Unit
+    private val onFavoriteClick: (Article) -> Unit,
+    private val onArticleClick: (Article) -> Unit
 ) : PagingDataAdapter<Article, NewsAdapter.NewsViewHolder>(ArticleDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -50,6 +51,10 @@ class NewsAdapter(
 
             binding.btnAddFavorite.setOnClickListener {
                 onFavoriteClick(article)
+            }
+
+            binding.itemNewsCard.setOnClickListener{
+                onArticleClick(article)
             }
         }
     }

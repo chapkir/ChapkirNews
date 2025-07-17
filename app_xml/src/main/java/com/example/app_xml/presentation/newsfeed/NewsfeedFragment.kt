@@ -14,15 +14,18 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_xml.R
 import com.example.app_xml.databinding.FragmentNewsfeedBinding
 import com.example.app_xml.databinding.ToolbarNewsfeedBinding
+import com.example.app_xml.presentation.news_detail.NewsDetailSharedViewModel
 import com.example.app_xml.presentation.utils.applyWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -42,6 +45,7 @@ class NewsfeedFragment : Fragment() {
     private lateinit var newsAdapter: NewsAdapter
 
     private val viewModel: NewsfeedViewModel by viewModels()
+    private val sharedViewModel: NewsDetailSharedViewModel by activityViewModels()
 
     private var searchJob: Job? = null
 
@@ -100,9 +104,13 @@ class NewsfeedFragment : Fragment() {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        newsAdapter = NewsAdapter { article ->
-            viewModel.toggleFavorite(article)
-        }
+        newsAdapter = NewsAdapter(
+            onFavoriteClick = { article -> viewModel.toggleFavorite(article) },
+            onArticleClick = { article ->
+                sharedViewModel.selectArticle(article)
+                findNavController().navigate(R.id.newsDetailFragment)
+            }
+        )
 
         binding.recyclerNews.adapter = newsAdapter
         binding.recyclerNews.layoutManager = LinearLayoutManager(requireContext())
