@@ -1,28 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragmentNewsDetail"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingHorizontal="12dp">
 
     <TextView
         android:id="@+id/tvTitle"
+        style="@style/TextCardNewsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Заголовок"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Заголовок новости" />
+
+    <!-- Картинка новости -->
+    <ImageView
+        android:id="@+id/imgNews"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/desc_news_image"
+        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        tools:src="@drawable/placeholder_news_image" />
 
     <TextView
         android:id="@+id/tvDescription"
+        style="@style/TextCardNewsDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Описание"
-        android:textSize="16sp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/imgNews"
+        tools:text="Краткое описание, максимум 3 строки. Например я сегодня вкусно кушал во вкусно и точке бла бла бла" />
+
+    <TextView
+        android:id="@+id/tvReadMore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/read_full"
+        android:textColor="#FF1E88E5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+
+    <TextView
+        android:id="@+id/tvAurhor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/author"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvReadMore"
+        tools:text="Автор статьи: Васька Пупкин" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
