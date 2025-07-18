@@ -85,6 +85,9 @@ dependencies {
 // Глайд
     implementation(libs.glide)
     ksp(libs.compiler)
+    
+// СвайРефреш
+    implementation (libs.androidx.swiperefreshlayout)
 
 // Project
     implementation(project(":data"))
