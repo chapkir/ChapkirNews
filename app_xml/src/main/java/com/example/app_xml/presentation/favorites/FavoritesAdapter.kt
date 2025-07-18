@@ -35,10 +35,10 @@ class FavoritesAdapter(
         fun bind(article: Article) {
             binding.tvTitle.text = article.title
             binding.tvDescription.text = article.description
-            binding.tvAurhor.text = article.author
+            binding.tvAuthor.text = article.author
             binding.tvPublishedAt.text = article.publishedAt
 
-            Glide.with(binding.imgNews)
+            Glide.with(binding.root)
                 .load(article.imageUrl)
                 .transition(DrawableTransitionOptions.withCrossFade(300))
                 .transform(CenterCrop(), RoundedCorners(16))

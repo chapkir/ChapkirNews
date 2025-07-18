@@ -8,11 +8,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_xml.R
 import com.example.app_xml.databinding.FragmentFavoritesBinding
 import com.example.app_xml.databinding.ToolbarFavoritesBinding
+import com.example.app_xml.presentation.news_detail.NewsDetailDialogFragment
 import com.example.app_xml.presentation.news_detail.NewsDetailSharedViewModel
 import com.example.app_xml.presentation.utils.applyWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +28,8 @@ class FavoritesFragment : Fragment() {
 
     private val viewModel: FavoritesViewModel by viewModels()
     private val sharedViewModel: NewsDetailSharedViewModel by activityViewModels()
+
+    private var newsDialog: NewsDetailDialogFragment? = null
 
     private lateinit var favoritesAdapter: FavoritesAdapter
 
@@ -56,7 +58,8 @@ class FavoritesFragment : Fragment() {
             onFavoriteClick = { article -> viewModel.toggleFavorite(article) },
             onArticleClick = { article ->
                 sharedViewModel.selectArticle(article)
-                findNavController().navigate(R.id.newsDetailFragment)
+                newsDialog = NewsDetailDialogFragment()
+                newsDialog?.show(parentFragmentManager, "NewsDetailDialog")
             }
         )
 

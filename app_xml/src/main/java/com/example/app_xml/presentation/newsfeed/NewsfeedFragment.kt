@@ -19,12 +19,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_xml.R
 import com.example.app_xml.databinding.FragmentNewsfeedBinding
 import com.example.app_xml.databinding.ToolbarNewsfeedBinding
+import com.example.app_xml.presentation.news_detail.NewsDetailDialogFragment
 import com.example.app_xml.presentation.news_detail.NewsDetailSharedViewModel
 import com.example.app_xml.presentation.utils.applyWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,6 +46,8 @@ class NewsfeedFragment : Fragment() {
 
     private val viewModel: NewsfeedViewModel by viewModels()
     private val sharedViewModel: NewsDetailSharedViewModel by activityViewModels()
+
+    private var newsDialog: NewsDetailDialogFragment? = null
 
     private var searchJob: Job? = null
 
@@ -108,7 +110,8 @@ class NewsfeedFragment : Fragment() {
             onFavoriteClick = { article -> viewModel.toggleFavorite(article) },
             onArticleClick = { article ->
                 sharedViewModel.selectArticle(article)
-                findNavController().navigate(R.id.newsDetailFragment)
+                newsDialog = NewsDetailDialogFragment()
+                newsDialog?.show(parentFragmentManager, "NewsDetailDialog")
             }
         )
 

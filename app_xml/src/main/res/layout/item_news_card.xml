@@ -27,7 +27,7 @@
 
             <!-- Автор новости -->
             <TextView
-                android:id="@+id/tvAurhor"
+                android:id="@+id/tvAuthor"
                 style="@style/TextCardNewsAuthor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
