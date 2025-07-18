@@ -75,6 +75,13 @@ class NewsfeedFragment : Fragment() {
             applyTop = true
         )
 
+        applyWindowInsets(
+            activity = requireActivity(),
+            targetView = binding.errorBlockLayout,
+            insetTypes = WindowInsetsCompat.Type.ime(),
+            applyBottom = true
+        )
+
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

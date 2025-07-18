@@ -2,6 +2,10 @@ package com.example.app_xml
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.Insets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.app_xml.databinding.ActivityMainBinding
@@ -34,6 +38,15 @@ class MainActivity : AppCompatActivity() {
 
                 else -> binding.bottomNavBar.clearFocus()
             }
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavBar) { view, insets ->
+            view.updatePadding(
+                bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            )
+            WindowInsetsCompat.Builder(insets)
+                .setInsets(WindowInsetsCompat.Type.ime(), Insets.NONE)
+                .build()
         }
     }
 
