@@ -72,14 +72,12 @@ class FavoritesFragment : Fragment() {
             binding.progressBarFavorites.visibility =
                 if (state.isLoading) View.VISIBLE else View.GONE
 
-            binding.tvError.apply {
-                text = state.error.orEmpty()
-                visibility = if (state.error != null) View.VISIBLE else View.GONE
+            if (state.error != null){
+                binding.errorBlockLayout.visibility = View.VISIBLE
+                binding.tvErrorMessage.text = state.error
+            } else {
+                binding.errorBlockLayout.visibility = View.GONE
             }
-
-            binding.tvEmpty.visibility =
-                if (!state.isLoading && state.favorites.isEmpty() && state.error == null)
-                    View.VISIBLE else View.GONE
         }
     }
 

@@ -21,7 +21,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.app_xml.R
 import com.example.app_xml.databinding.FragmentNewsfeedBinding
 import com.example.app_xml.databinding.ToolbarNewsfeedBinding
@@ -139,8 +138,20 @@ class NewsfeedFragment : Fragment() {
                     binding.progressBarNewsfeed.isVisible = isInitialLoading
                     binding.swipeRefreshNewsfeed.isRefreshing = isPullToRefresh
 
+                    val refreshError = loadState.refresh as? LoadState.Error
+                    if (refreshError != null && newsAdapter.itemCount == 0) {
+                        binding.errorBlockLayout.visibility = View.VISIBLE
+                        binding.tvErrorMessage.text = getString(R.string.error_load_news)
+                    } else {
+                        binding.errorBlockLayout.visibility = View.GONE
+                    }
 
-
+                    val isEmpty =
+                        loadState.refresh is LoadState.NotLoading && newsAdapter.itemCount == 0
+                    if (isEmpty) {
+                        binding.errorBlockLayout.visibility = View.VISIBLE
+                        binding.tvErrorMessage.text = getString(R.string.error_search_news)
+                    }
                 }
             }
         }

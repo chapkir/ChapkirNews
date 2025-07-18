@@ -9,10 +9,16 @@
 
     <string name="author">Автор статьи: %1$s</string>
     <string name="publishedAt">Опубликовано: %1$s</string>
+
     <string name="search">Поиск</string>
     <string name="desc_news_image">Картинка новости</string>
     <string name="btn_add_favorite">Добавить в избранное</string>
     <string name="btn_back">Назад</string>
     <string name="scroll_to_top">Скролл вверх ленты</string>
+
+    <string name="content_not_found">Нет результатов</string>
+    <string name="error_load_news">Ошибка загрузки новостей. Сервис плохо работает в России, попробуй включить VPN.</string>
+    <string name="error_load_favorites">Кажется, Вы ничего не сохраняли. Листайте ленту и добавляйте сюда то, что понравится! </string>
+    <string name="error_search_news">По Вашему запросу новостей нет. Попробуйте найти что-то другое! </string>
 
 </resources>

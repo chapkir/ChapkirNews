@@ -36,7 +36,7 @@ class FavoritesViewModel @Inject constructor(
                             FavoritesUiState(
                                 favorites = emptyList(),
                                 isLoading = false,
-                                error = "Кажется, Вы ничего не сохраняли. Листайте ленту и добавляйте понравившиеся!"
+                                error = "Кажется, Вы ничего не сохраняли. Листайте ленту и добавляйте сюда то, что понравится!"
                             )
                         )
                     } else {
