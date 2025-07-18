@@ -27,9 +27,6 @@ class NewsfeedViewModel @Inject constructor(
     private val getFavorites: GetFavoriteNewsUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableLiveData(NewsUiState())
-    val uiState: LiveData<NewsUiState> = _uiState
-
     private val _articles = MutableLiveData<PagingData<Article>>()
     val articles: LiveData<PagingData<Article>> = _articles
 
@@ -76,19 +73,8 @@ class NewsfeedViewModel @Inject constructor(
         }
     }
 
-    fun openSearch() {
-        _uiState.value = _uiState.value?.copy(isSearchActive = true)
-    }
-
-    fun closeSearch() {
-        currentQuery = ""
-        _uiState.value = _uiState.value?.copy(isSearchActive = false, searchQuery = "")
-        loadNews()
-    }
-
     fun onSearchQueryChange(query: String) {
         currentQuery = query
-        _uiState.value = _uiState.value?.copy(searchQuery = query)
         loadNews()
     }
 }

@@ -21,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.app_xml.R
 import com.example.app_xml.databinding.FragmentNewsfeedBinding
 import com.example.app_xml.databinding.ToolbarNewsfeedBinding
@@ -118,14 +119,28 @@ class NewsfeedFragment : Fragment() {
         binding.recyclerNews.adapter = newsAdapter
         binding.recyclerNews.layoutManager = LinearLayoutManager(requireContext())
 
+        binding.swipeRefreshNewsfeed.setOnRefreshListener {
+            newsAdapter.refresh()
+        }
+
         viewModel.articles.observe(viewLifecycleOwner) { pagingData ->
             newsAdapter.submitData(lifecycle, pagingData)
         }
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                newsAdapter.loadStateFlow.collectLatest { loadStates ->
-                    binding.progressBarNewsfeed.isVisible = loadStates.refresh is LoadState.Loading
+                newsAdapter.loadStateFlow.collectLatest { loadState ->
+
+                    val isInitialLoading =
+                        loadState.source.refresh is LoadState.Loading && newsAdapter.itemCount == 0
+                    val isPullToRefresh =
+                        loadState.refresh is LoadState.Loading && !isInitialLoading
+
+                    binding.progressBarNewsfeed.isVisible = isInitialLoading
+                    binding.swipeRefreshNewsfeed.isRefreshing = isPullToRefresh
+
+
+
                 }
             }
         }

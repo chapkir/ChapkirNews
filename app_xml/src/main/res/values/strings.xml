@@ -13,5 +13,6 @@
     <string name="desc_news_image">Картинка новости</string>
     <string name="btn_add_favorite">Добавить в избранное</string>
     <string name="btn_back">Назад</string>
+    <string name="scroll_to_top">Скролл вверх ленты</string>
 
 </resources>
