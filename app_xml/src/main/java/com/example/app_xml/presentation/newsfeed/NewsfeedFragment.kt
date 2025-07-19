@@ -21,12 +21,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.app_xml.R
 import com.example.app_xml.databinding.FragmentNewsfeedBinding
 import com.example.app_xml.databinding.ToolbarNewsfeedBinding
 import com.example.app_xml.presentation.news_detail.NewsDetailDialogFragment
 import com.example.app_xml.presentation.news_detail.NewsDetailSharedViewModel
 import com.example.app_xml.presentation.utils.applyWindowInsets
+import com.example.app_xml.presentation.utils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -124,6 +126,14 @@ class NewsfeedFragment : Fragment() {
 
         binding.recyclerNews.adapter = newsAdapter
         binding.recyclerNews.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.recyclerNews.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState != RecyclerView.SCROLL_STATE_IDLE) {
+                    hideKeyboard()
+                }
+            }
+        })
 
         binding.swipeRefreshNewsfeed.setOnRefreshListener {
             newsAdapter.refresh()
