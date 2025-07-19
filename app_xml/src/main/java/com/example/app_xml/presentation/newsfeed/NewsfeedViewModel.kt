@@ -58,7 +58,6 @@ class NewsfeedViewModel @Inject constructor(
         viewModelScope.launch {
             getFavorites().collectLatest { favorites ->
                 _favorites.postValue(favorites.map { it.url })
-                loadNews()
             }
         }
     }

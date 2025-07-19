@@ -10,8 +10,7 @@
         android:id="@+id/tvNewsfeedTitle"
         style="@style/TextToolbarTitle"
         android:layout_gravity="start|center_vertical"
-        android:text="@string/newsfeed_title"
-        android:visibility="visible" />
+        android:text="@string/newsfeed_title" />
 
 </com.google.android.material.appbar.MaterialToolbar>
 

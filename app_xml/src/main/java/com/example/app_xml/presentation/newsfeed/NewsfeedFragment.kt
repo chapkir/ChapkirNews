@@ -164,6 +164,11 @@ class NewsfeedFragment : Fragment() {
         }
     }
 
+    fun scrollToTopAndRefresh() {
+        binding.recyclerNews.smoothScrollToPosition(0)
+        newsAdapter.refresh()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         searchJob?.cancel()

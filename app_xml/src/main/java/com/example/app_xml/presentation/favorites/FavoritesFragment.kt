@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,6 +16,8 @@ import com.example.app_xml.databinding.ToolbarFavoritesBinding
 import com.example.app_xml.presentation.news_detail.NewsDetailDialogFragment
 import com.example.app_xml.presentation.news_detail.NewsDetailSharedViewModel
 import com.example.app_xml.presentation.utils.applyWindowInsets
+import com.example.domain.model.Article
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,6 +36,9 @@ class FavoritesFragment : Fragment() {
 
     private lateinit var favoritesAdapter: FavoritesAdapter
 
+    private var deletedFavArticle: Article? = null
+    private var deletedFavPosition: Int = -1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +53,9 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbarBinding.favoritesToolbar)
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
+
         applyWindowInsets(
             activity = requireActivity(),
             targetView = toolbarBinding.favoritesToolbar,
@@ -55,7 +64,7 @@ class FavoritesFragment : Fragment() {
         )
 
         favoritesAdapter = FavoritesAdapter(
-            onFavoriteClick = { article -> viewModel.toggleFavorite(article) },
+            onFavoriteClick = { article -> deleteArticle(article) },
             onArticleClick = { article ->
                 sharedViewModel.selectArticle(article)
                 newsDialog = NewsDetailDialogFragment()
@@ -79,6 +88,46 @@ class FavoritesFragment : Fragment() {
                 binding.errorBlockLayout.visibility = View.GONE
             }
         }
+    }
+
+    private fun deleteArticle(article: Article) {
+        deletedFavArticle = article
+        deletedFavPosition = favoritesAdapter.currentList.indexOf(article)
+
+        val currentList = favoritesAdapter.currentList.toMutableList()
+        currentList.remove(article)
+        favoritesAdapter.submitList(currentList)
+
+        val snackbar = Snackbar.make(binding.root, "Новость удалена", Snackbar.LENGTH_LONG)
+            .setAnchorView(requireActivity().findViewById<View>(R.id.bottomNavBar)!!)
+            .setAction("Отменить") {
+                deletedFavArticle?.let {
+                    val newList = favoritesAdapter.currentList.toMutableList()
+                    if (deletedFavPosition in 0..newList.size) {
+                        newList.add(deletedFavPosition, it)
+                    } else {
+                        newList.add(0, it)
+                    }
+                    favoritesAdapter.submitList(newList)
+                    deletedFavArticle = null
+                    deletedFavPosition = -1
+                }
+            }
+
+
+        snackbar.addCallback(object : Snackbar.Callback() {
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                if (event != DISMISS_EVENT_ACTION) {
+                    deletedFavArticle?.let {
+                        viewModel.toggleFavorite(it)
+                        deletedFavArticle = null
+                        deletedFavPosition = -1
+                    }
+                }
+            }
+        })
+
+        snackbar.show()
     }
 
     override fun onDestroyView() {

@@ -9,6 +9,7 @@ import androidx.core.view.updatePadding
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.app_xml.databinding.ActivityMainBinding
+import com.example.app_xml.presentation.newsfeed.NewsfeedFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,6 +38,23 @@ class MainActivity : AppCompatActivity() {
                     binding.bottomNavBar.menu.findItem(R.id.favoritesFragment).isChecked = true
 
                 else -> binding.bottomNavBar.clearFocus()
+            }
+        }
+
+        binding.bottomNavBar.setOnItemReselectedListener { item ->
+            when (item.itemId) {
+                R.id.newsfeedFragment -> {
+                    val navHostFragment = supportFragmentManager
+                        .findFragmentById(R.id.fragmentContainer) as? NavHostFragment
+                    val currentFragment = navHostFragment
+                        ?.childFragmentManager
+                        ?.fragments
+                        ?.firstOrNull()
+
+                    if (currentFragment is NewsfeedFragment) {
+                        currentFragment.scrollToTopAndRefresh()
+                    }
+                }
             }
         }
 
