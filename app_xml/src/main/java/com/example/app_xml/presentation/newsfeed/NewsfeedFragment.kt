@@ -7,8 +7,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.WindowInsetsCompat
@@ -93,6 +95,15 @@ class NewsfeedFragment : Fragment() {
                 val searchView = searchItem.actionView as SearchView
 
                 searchView.queryHint = "Поиск новостей"
+
+                val searchEditText = searchView.findViewById<AutoCompleteTextView>(
+                    androidx.appcompat.R.id.search_src_text
+                )
+
+                with(searchEditText){
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.on_background))
+                    setHintTextColor(ContextCompat.getColor(requireContext(), R.color.on_surface))
+                }
 
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
