@@ -1,15 +1,20 @@
 package com.example.app_xml.presentation.favorites
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.app_xml.R
 import com.example.app_xml.databinding.FragmentFavoritesBinding
 import com.example.app_xml.databinding.ToolbarFavoritesBinding
@@ -75,13 +80,33 @@ class FavoritesFragment : Fragment() {
         binding.recyclerFavorites.adapter = favoritesAdapter
         binding.recyclerFavorites.layoutManager = LinearLayoutManager(requireContext())
 
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.bindingAdapterPosition
+                val article = favoritesAdapter.currentList[position]
+                deleteArticle(article)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerFavorites)
+
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             favoritesAdapter.submitList(state.favorites)
 
             binding.progressBarFavorites.visibility =
                 if (state.isLoading) View.VISIBLE else View.GONE
 
-            if (state.error != null){
+            if (state.error != null) {
                 binding.errorBlockLayout.visibility = View.VISIBLE
                 binding.tvErrorMessage.text = state.error
             } else {
@@ -114,6 +139,19 @@ class FavoritesFragment : Fragment() {
                 }
             }
 
+        snackbar.view.setBackgroundColor(
+            ContextCompat.getColor(requireContext(), R.color.secondary)
+        )
+
+        val snackbarTextView =
+            snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+
+        with(snackbarTextView) {
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.on_background))
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+        }
+
+        snackbar.setActionTextColor(ContextCompat.getColor(requireContext(), R.color.primary))
 
         snackbar.addCallback(object : Snackbar.Callback() {
             override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
