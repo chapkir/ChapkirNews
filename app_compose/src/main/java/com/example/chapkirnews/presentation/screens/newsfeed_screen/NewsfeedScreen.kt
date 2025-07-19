@@ -281,6 +281,7 @@ fun NewsfeedScreen(
                     onClick = {
                         coroutineScope.launch {
                             listState.animateScrollToItem(0)
+                            news.refresh()
                         }
                     },
                     modifier = Modifier.size(58.dp),
