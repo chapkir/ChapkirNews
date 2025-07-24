@@ -80,10 +80,7 @@ ChapkirNews/
 
 ## 🖼️ Скриншоты
 
-![Лента новостей](screenshots/compose_newsfeed.jpg)
-![Поиск](screenshots/compose_search.jpg)
-![Экран_избранного](screenshots/compose_favs.jpg)
-![Дельный_просмотр_новости](screenshots/compose_news_detail.jpg)
+![Приложение](screenshots/present.jpg)
 
 ---
 
